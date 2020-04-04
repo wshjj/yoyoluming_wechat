@@ -1,0 +1,11 @@
+<view class="container">
+<view class="welcome">欢迎来到</view>
+<view class="name">呦呦鹿鸣 showMe</view>
+<view wx:if="{{login}}">
+<view>你还没登录，点击下方按钮登录</view>
+<button>登录</button>
+</view>
+</view>
+<view class="bottom">
+开启校园社交新天地
+</view>
