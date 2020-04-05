@@ -2,9 +2,9 @@ page{
   background: -webkit-linear-gradient(left top ,#8ee2e6 ,#275bef)
 }
 .welcome{
-  margin-top: 100px;
-  font-size: 30px;
-  line-height: 40px;
+  margin-top: 90px;
+  font-size: 36px;
+  line-height: 46px;
   color: rgba(255, 255, 255, .9);
   font-family: "幼圆";
 }
@@ -20,8 +20,28 @@ page{
   font-size: 20px;
   line-height: 30px;
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   text-align: center;
   color: rgba(212, 140, 245, 0.9);
   font-family: "隶书";
+}
+.tip{
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 24px;
+  line-height: 34px;
+  color: rgba(1, 223, 86, 0.8);
+  font-family: "黑体";
+  font-weight: bold;
+}
+button{
+  margin-top: 20px;
+}
+.avatar{
+  margin-top: 20px;
+}
+.avatar > image{
+  width: 80px;
+  height: 80px;
 }
