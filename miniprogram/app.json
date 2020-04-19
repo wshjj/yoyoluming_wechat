@@ -1,9 +1,12 @@
 {
   "pages": [
+    "pages/setInfo/setInfo",
+    "pages/home/home",
     "pages/cover/cover",
     "pages/index/index",
-    "pages/secret/secret",
-    "pages/home/home"
+    "pages/topic/topic",
+    "pages/secret/secret"
+    
   ],
   "window": {
     "navigationBarBackgroundColor": "#8ad7f3",
@@ -15,9 +18,14 @@
   "tabBar": {
     "list": [{
       "pagePath": "pages/index/index",
-      "text": "首页",
-      "iconPath": "images/index.png",
-      "selectedIconPath": "images/index_sel.png"
+      "text": "心情广场",
+      "iconPath": "images/mood.png",
+      "selectedIconPath": "images/mood_sel.png"
+    },{
+      "pagePath": "pages/topic/topic",
+      "text": "话题说",
+      "iconPath": "images/topic.png",
+      "selectedIconPath": "images/topic_sel.png"
     },{
       "pagePath": "pages/secret/secret",
       "text": "匿名说",

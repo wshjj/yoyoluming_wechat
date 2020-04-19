@@ -1,1 +1,77 @@
-/* pages/home/home.wxss */
+page{
+  background-color: rgba(230, 230, 230, 0.7);
+}
+.head_name{
+  height: 20vw;
+  width: 100%;
+  margin: 10px 0;
+  border-bottom-left-radius: 50vw;
+  position: relative;
+}
+.head_name:after {
+    background-color: greenyellow;
+    content: '';
+    width: 400vw;
+    height: 400vw;
+    position: absolute;
+    left: -150vw;
+    top:-373vw;
+    z-index: -1;
+    border-radius: 50%;
+    box-shadow: inset 3px 3px 6px #000;
+}
+.head{
+  width: 20vw;
+  height: 20vw;
+  margin-left: 10px;
+  border-radius: 50%;
+  float: left;
+}
+.head > image{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.name{
+  height: 20vw;
+  width: 70vw;
+  line-height: 20vw;
+  font-size: 26px;
+  margin-left: 20px;
+  float: left;
+}
+.name > button{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 20vw;
+  font-size: 26px;
+  padding-left: 20px;
+  font-weight: normal;
+  font-family: '黑体';
+  text-align: left;
+}
+
+.other{
+  width: 100%;
+  margin-top: 10vw;
+  font-size: 24px;
+  line-height: 50px;
+  font-family: '楷体';
+}
+.other > view{
+  background-color: white;
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid rgba(200, 200, 200, 0.8);
+  padding-left: 20px;
+}
+.other > view::after{
+  content: '>';
+  font-size: 24px;
+  line-height: 50px;
+  float: right;
+  margin-right: 34px;
+  color: rgb(150, 150, 150);
+}

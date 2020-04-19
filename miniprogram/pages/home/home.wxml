@@ -1,2 +1,35 @@
-<!--pages/home/home.wxml-->
-<text>pages/home/home.wxml</text>
+<!--未登录-->
+<view wx:if="{{!login}}">
+<!--头像和昵称/登录-->
+<view class="head_name">
+<view class="head"><image src="{{avatarUrl}}"></image></view>
+<view class="name">
+<button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点我登录</button>
+</view>
+</view>
+<!-- 其他选项 -->
+<view class="other">
+<view>先登录后才可查看</view>
+</view>
+</view>
+<!--已登录-->
+<view wx:else>
+<!--头像和昵称/登录-->
+<view class="head_name">
+<view class="head"><image src="{{avatarUrl}}"></image></view>
+<view class="name">{{name}}</view>
+</view>
+<!-- 其他选项 -->
+<view class="other">
+<view style="margin:15px 0px" bindtap="setInfoCard">设置个人资料</view>
+
+<view style="margin-top:15px">我的心情</view>
+<view>我的话题</view>
+<view style="margin-bottom:15px">我的匿名说</view>
+
+<view style="margin-top:15px">我的收藏</view>
+<view style="margin-bottom:15px">我的举报</view>
+
+<view style="margin-top:15px">对软件的意见</view>
+</view>
+</view>

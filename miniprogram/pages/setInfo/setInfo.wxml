@@ -1,0 +1,60 @@
+<view>
+<form bindsubmit="submitInfo">
+
+<view class="group_head">
+<view>头像</view>
+<view><image src="{{userInfo.avatar}}"></image></view>
+</view>
+
+<view class="group" data-name="昵称" bindtap="popUp">
+<view>昵称</view>
+<view>{{userInfo.name}}</view>
+</view>
+
+<view class="group">
+<view>性别</view>
+<view>{{userInfo.gender}}</view>
+</view>
+
+<view class="group">
+<view>生日</view>
+<view>{{userInfo.birth}}</view>
+</view>
+
+<view class="group" data-name="个性签名" bindtap="popUp">
+<view>个性签名</view>
+<view>{{userInfo.signature}}</view>
+</view>
+
+<view class="group" data-name="爱好" bindtap="popUp">
+<view>爱好</view>
+<view>{{userInfo.hobby}}</view>
+</view>
+
+<view class="group" data-name="自我介绍" bindtap="popUp">
+<view>自我介绍</view>
+<view>{{userInfo.intro}}</view>
+</view>
+
+</form>
+</view>
+
+<view id="textarea" wx:if="{{textarea}}">
+<view class="textarea">
+
+<!-- 顶部菜单栏 -->
+<view class="top">
+<view bindtap="popUpX">X</view>
+</view>
+<!-- 提示文字 -->
+<view class="content">请输入要修改的{{textarea_name}}:</view>
+<!-- 输入框和确认按钮 -->
+<view class="bottom">
+<form bindsubmit="popUpSure">
+<textarea name="text"></textarea>
+<view class="button"><button form-type="submit" type="primary">确定</button></view>
+</form>
+</view>
+
+</view>
+</view>

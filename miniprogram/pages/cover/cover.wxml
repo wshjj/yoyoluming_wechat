@@ -1,10 +1,11 @@
 <view class="container">
 <view class="welcome">欢迎来到</view>
 <view class="name">呦呦鹿鸣 showMe</view>
-<view style="margin-top:30px" wx:if="{{!login}}">
+<view style="margin-top:40px" wx:if="{{!login}}">
 <view class="tip">你还没授权登录</view>
 <view class="tip">请点击下方按钮登录</view>
 <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" type="primary">授权登录</button>
+<button style="background-color:yellowgreen" type="primary" bindtap="unlogin">暂不登陆</button>
 </view>
 </view>
 <view class="bottom">
