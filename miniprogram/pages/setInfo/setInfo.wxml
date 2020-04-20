@@ -1,7 +1,7 @@
 <view>
 <form bindsubmit="submitInfo">
 
-<view class="group_head">
+<view class="group_head" bindtap="changeHead">
 <view>头像</view>
 <view><image src="{{userInfo.avatar}}"></image></view>
 </view>
@@ -11,15 +11,23 @@
 <view>{{userInfo.name}}</view>
 </view>
 
+<picker bindchange="changeSex" value="{{userInfo.gender}}" range="{{array}}">
 <view class="group">
 <view>性别</view>
-<view>{{userInfo.gender}}</view>
+  <view>
+  {{array[userInfo.gender]}}
+  </view>
 </view>
+</picker>
 
+<picker mode="date" value="{{userInfo.birth}}" start="0000-00-00" bindchange="changeBirth">
 <view class="group">
 <view>生日</view>
-<view>{{userInfo.birth}}</view>
+  <view>
+    {{userInfo.birth}}
+  </view>
 </view>
+</picker>
 
 <view class="group" data-name="个性签名" bindtap="popUp">
 <view>个性签名</view>

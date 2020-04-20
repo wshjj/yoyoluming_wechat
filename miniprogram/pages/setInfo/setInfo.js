@@ -13,13 +13,14 @@ Page({
       doc: '',
       openid: '',
       avatar: 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/head_default.png',
-      name: '',
-      gener: '',
-      birth: '',
-      signature: '',
-      hobby: '',
-      intro: '',
+      name: '我的名字',
+      gender: 0,
+      birth: '0000-00-00',
+      signature: '不一样的我',
+      hobby: '我的爱好',
+      intro: '这就是我',
     },
+    array:['保密','男','女'],
     textarea: false,
     textarea_name: ""
   },
@@ -47,12 +48,13 @@ Page({
         nowUserInfo.hobby = res0.data[0].hobby
         nowUserInfo.intro = res0.data[0].intro
         nowUserInfo.doc = res0.data[0]._id
+        nowUserInfo.gender = res0.data[0].gender
         nowUserInfo.openid = res.result.openid
-        switch (res0.data[0].gender){
-          case 0: nowUserInfo.gender = '保密'; break;
-          case 1: nowUserInfo.gender = '男';break;
-          case 2: nowUserInfo.gender = '女';break;
-        }
+        // switch (res0.data[0].gender){
+        //   case 0: nowUserInfo.gender = '保密'; break;
+        //   case 1: nowUserInfo.gender = '男';break;
+        //   case 2: nowUserInfo.gender = '女';break;
+        // }
         this.setData({
           userInfo: nowUserInfo
         })
@@ -61,7 +63,7 @@ Page({
     })
   },
 
-  // 弹出文本框填写个人信息
+  // 弹出文本框填写要修改个人信息
   popUp:function(e){
     let name = e.currentTarget.dataset.name
     //console.log(name)
@@ -98,7 +100,7 @@ Page({
         doc: that.data.userInfo.doc,
         data: JSON.stringify(data)
       })
-      // 调用完后显示修改成功，并且刷新当前页面
+      // 调用完后显示修改成功，并更新当前页面
       updateDate.then(res => {
         console.log(res)
         wx.showToast({
@@ -131,6 +133,154 @@ Page({
         updataProcess({ hobby: changeMsg });
         break;
     }
+  },
+
+  // 更换头像
+  changeHead:function(){
+    // 为了方便下面调用this.data数据
+    let that = this
+    // 调用选择图片的 api
+    wx.chooseImage({
+      // 图片数量为1
+      count: 1,
+      // 选取图片成功后的程序
+      success: function (res) {
+        wx.showLoading({
+          title: '上传中...',
+        })
+        // console.log(res.tempFilePaths[0])
+        let uploadImg = project.uploadImg('head', res.tempFilePaths[0])
+        uploadImg.then(res0 => {
+          // console.log(res0.fileID)
+          // 调用更新用户数据的云函数
+          let updateDate = project.fun('databaseUpdate', {
+            collectionName: 'user',
+            doc: that.data.userInfo.doc,
+            data: JSON.stringify({ avatar: res0.fileID})
+          })
+          // 调用完后显示修改成功，并更新当前页面
+          updateDate.then(res => {
+            console.log(res)
+            wx.showToast({
+              title: '修改成功！',
+              icon: 'success',
+              mask: true,
+              complete: function () {
+                let nowUserInfo = that.data.userInfo
+                nowUserInfo.avatar = res0.fileID
+                that.setData({
+                  userInfo: nowUserInfo
+                })
+              }
+            })
+          })
+        })
+      },
+      fail:function(){
+        wx.showToast({
+          title: '修改失败',
+          icon: 'none'
+        })
+      }
+    })
+  },
+
+  // 修改性别
+  changeSex:function(e){
+    // console.log(e.detail.value)
+    // 为了方便下面调用this.data数据
+    let that = this
+    // 保存现在的性别到 nowSex 变量
+    let nowSex = this.data.array[e.detail.value]
+    // 弹出提示框，确认是否修改
+    wx.showModal({
+      title: '提示',
+      content: '是否确认将性别改为 ' + nowSex,
+      success(res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '修改中...',
+          })
+          // console.log('用户点击确定')
+          // 调用更新用户数据的云函数
+          let updateDate = project.fun('databaseUpdate', {
+            collectionName: 'user',
+            doc: that.data.userInfo.doc,
+            data: JSON.stringify({ gender: e.detail.value })
+          })
+          // 调用完后显示修改成功，并更新当前页面
+          updateDate.then(res => {
+            console.log(res)
+            wx.showToast({
+              title: '修改成功！',
+              icon: 'success',
+              mask: true,
+              complete: function () {
+                let nowUserInfo = that.data.userInfo
+                nowUserInfo.gender = e.detail.value
+                that.setData({
+                  userInfo: nowUserInfo
+                })
+              }
+            })
+          })
+        } else if (res.cancel) {
+          // console.log('用户点击取消')
+          wx.showToast({
+            title: '修改失败',
+            icon: 'none'
+          })
+        }
+      }
+    })
+  },
+
+  // 修改生日
+  changeBirth:function(e){
+    // console.log(e.detail.value)
+    // 为了方便下面调用this.data数据
+    let that = this
+    // 弹出提示框，确认是否修改
+    wx.showModal({
+      title: '提示',
+      content: '是否确认将生日改为 ' + e.detail.value,
+      success(res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '修改中...',
+          })
+          // console.log('用户点击确定')
+          // 调用更新用户数据的云函数
+          let updateDate = project.fun('databaseUpdate', {
+            collectionName: 'user',
+            doc: that.data.userInfo.doc,
+            data: JSON.stringify({ birth: e.detail.value })
+          })
+          // 调用完后显示修改成功，并更新当前页面
+          updateDate.then(res => {
+            console.log(res)
+            wx.showToast({
+              title: '修改成功！',
+              icon: 'success',
+              mask: true,
+              complete: function () {
+                let nowUserInfo = that.data.userInfo
+                nowUserInfo.birth = e.detail.value
+                that.setData({
+                  userInfo: nowUserInfo
+                })
+              }
+            })
+          })
+        } else if (res.cancel) {
+          // console.log('用户点击取消')
+          wx.showToast({
+            title: '修改失败',
+            icon: 'none'
+          })
+        }
+      }
+    })
   },
 
   /**

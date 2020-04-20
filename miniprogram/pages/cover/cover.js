@@ -60,7 +60,7 @@ Page({
         name: e.detail.userInfo.nickName,
         avatar: e.detail.userInfo.avatarUrl,
         gender: e.detail.userInfo.gender,
-        birth: '未填',
+        birth: '0000-00-00',
         signature: '还没写哦~',
         hobby: '无',
         intro: '这个人很懒，啥也没写。',

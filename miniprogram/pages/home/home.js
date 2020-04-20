@@ -63,7 +63,11 @@ Page({
         openid: res.result.openid,
         name: e.detail.userInfo.nickName,
         avatar: e.detail.userInfo.avatarUrl,
-        gender: e.detail.userInfo.gender
+        gender: e.detail.userInfo.gender,
+        birth: '0000-00-00',
+        signature: '还没写哦~',
+        hobby: '无',
+        intro: '这个人很懒，啥也没写。',
       }
       // 使用 databaseAdd 云函数将用户存入数据库
       let addDate = project.fun('databaseAdd', {
