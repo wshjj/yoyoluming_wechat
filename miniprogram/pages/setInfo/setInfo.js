@@ -19,10 +19,12 @@ Page({
       signature: '不一样的我',
       hobby: '我的爱好',
       intro: '这就是我',
+      avatarHistory: []
     },
     array:['保密','男','女'],
     textarea: false,
-    textarea_name: ""
+    textarea_name: "",
+    tapHead: false,
   },
 
   /**
@@ -49,12 +51,8 @@ Page({
         nowUserInfo.intro = res0.data[0].intro
         nowUserInfo.doc = res0.data[0]._id
         nowUserInfo.gender = res0.data[0].gender
+        nowUserInfo.avatarHistory = res0.data[0].avatarHistory
         nowUserInfo.openid = res.result.openid
-        // switch (res0.data[0].gender){
-        //   case 0: nowUserInfo.gender = '保密'; break;
-        //   case 1: nowUserInfo.gender = '男';break;
-        //   case 2: nowUserInfo.gender = '女';break;
-        // }
         this.setData({
           userInfo: nowUserInfo
         })
@@ -135,10 +133,53 @@ Page({
     }
   },
 
+  // 点击头像触发事件
+  tapHead:function(){
+    this.setData({
+      tapHead:true
+    })
+  },
+
+  // 查看我的头像事件
+  watchHead:function(){
+    let that = this
+    wx.previewImage({
+      current:this.data.userInfo.avatar,
+      urls: [this.data.userInfo.avatar],
+      complete: function(){
+        that.setData({
+          tapHead: false
+        })
+      }
+    })
+  },
+
+  // 查看历史头像事件
+  historyHead:function(){
+    this.setData({
+      tapHead: false
+    })
+    wx.showLoading({
+      title: '跳转中...',
+    })
+    wx.navigateTo({
+      url: '../historyHead/historyHead',
+    })
+  },
+
+  // 弹出头像的选项后取消
+  cancelHead:function(){
+    this.setData({
+      tapHead: false
+    })
+  },
+
   // 更换头像
   changeHead:function(){
     // 为了方便下面调用this.data数据
     let that = this
+    // 保留一下旧的头像，下面加入历史头像
+    let oldAvatar = that.data.userInfo.avatar
     // 调用选择图片的 api
     wx.chooseImage({
       // 图片数量为1
@@ -148,38 +189,114 @@ Page({
         wx.showLoading({
           title: '上传中...',
         })
-        // console.log(res.tempFilePaths[0])
-        let uploadImg = project.uploadImg('head', res.tempFilePaths[0])
-        uploadImg.then(res0 => {
-          // console.log(res0.fileID)
-          // 调用更新用户数据的云函数
-          let updateDate = project.fun('databaseUpdate', {
-            collectionName: 'user',
+        // 如果历史头像记录中满了10个，就删掉一个后再进行下一步
+        if (that.data.userInfo.avatarHistory.length == 5){
+          console.log(that.data.userInfo.avatarHistory[4])
+          let deleteHistoryHead = project.fun('deleteHistoryHead', {
             doc: that.data.userInfo.doc,
-            data: JSON.stringify({ avatar: res0.fileID})
+            fileid: that.data.userInfo.avatarHistory[4]
           })
-          // 调用完后显示修改成功，并更新当前页面
-          updateDate.then(res => {
-            console.log(res)
-            wx.showToast({
-              title: '修改成功！',
-              icon: 'success',
-              mask: true,
-              complete: function () {
-                let nowUserInfo = that.data.userInfo
-                nowUserInfo.avatar = res0.fileID
-                that.setData({
-                  userInfo: nowUserInfo
+          deleteHistoryHead.then(resul => {
+            // console.log(res.tempFilePaths[0])
+            let uploadImg = project.uploadImg('head', res.tempFilePaths[0])
+            uploadImg.then(res0 => {
+              // console.log(res0.fileID)
+              // 调用更新用户数据的云函数
+              let updateDate = project.fun('databaseUpdate', {
+                collectionName: 'user',
+                doc: that.data.userInfo.doc,
+                data: {
+                  avatar: res0.fileID,
+                }
+              })
+              // 再将旧的头像加入历史头像记录
+              updateDate.then(res1 => {
+                // console.log(res1)
+                let unshiftDate = project.fun('databaseUnshiftArr', {
+                  collectionName: 'user',
+                  doc: that.data.userInfo.doc,
+                  arrName: 'avatarHistory',
+                  updateDate: oldAvatar,
                 })
-              }
+                //调用完后显示修改成功，并更新当前页面
+                unshiftDate.then(res2 => {
+                  console.log(res2)
+                  wx.showToast({
+                    title: '修改成功！',
+                    icon: 'success',
+                    mask: true,
+                    complete: function () {
+                      let nowUserInfo = that.data.userInfo
+                      let nowHistory = nowUserInfo.avatarHistory
+                      nowHistory.unshift(nowUserInfo.avatar)
+                      nowHistory.pop()
+                      nowUserInfo.avatar = res0.fileID
+                      nowHistory.historyHead = nowHistory
+                      that.setData({
+                        tapHead: false,
+                        userInfo: nowUserInfo
+                      })
+                    }
+                  })
+                })
+              })
             })
           })
-        })
+        }
+        else{
+          // console.log(res.tempFilePaths[0])
+          let uploadImg = project.uploadImg('head', res.tempFilePaths[0])
+          uploadImg.then(res0 => {
+            // console.log(res0.fileID)
+            // 调用更新用户数据的云函数
+            let updateDate = project.fun('databaseUpdate', {
+              collectionName: 'user',
+              doc: that.data.userInfo.doc,
+              data: {
+                avatar: res0.fileID,
+                }
+            })
+            // 再将旧的头像加入历史头像记录
+            updateDate.then(res1 => {
+              // console.log(res1)
+              let unshiftDate = project.fun('databaseUnshiftArr', {
+                collectionName: 'user',
+                doc: that.data.userInfo.doc,
+                arrName: 'avatarHistory',
+                updateDate: oldAvatar,
+              })
+              //调用完后显示修改成功，并更新当前页面
+              unshiftDate.then(res2 => {
+                console.log(res2)
+                wx.showToast({
+                  title: '修改成功！',
+                  icon: 'success',
+                  mask: true,
+                  complete: function () {
+                    let nowUserInfo = that.data.userInfo
+                    let nowHistory = nowUserInfo.avatarHistory
+                    nowHistory.unshift(nowUserInfo.avatar)
+                    nowHistory.pop()
+                    nowUserInfo.avatar = res0.fileID
+                    nowHistory.historyHead = nowHistory
+                    that.setData({
+                      tapHead: false,
+                      userInfo: nowUserInfo
+                    })
+                  }
+                })
+              })
+            })
+          })
+        }
       },
       fail:function(){
         wx.showToast({
           title: '修改失败',
-          icon: 'none'
+          icon: 'none',
+          complete:function(){
+            that.setData({tapHead: false})
+          }
         })
       }
     })
@@ -301,14 +418,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    wx.hideLoading()
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    
   },
 
   /**

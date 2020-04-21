@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/home/home",
     "pages/setInfo/setInfo",
+    "pages/home/home",
+    "pages/historyHead/historyHead",
     
     "pages/cover/cover",
     "pages/index/index",

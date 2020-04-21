@@ -59,6 +59,7 @@ Page({
         openid: res.result.openid,
         name: e.detail.userInfo.nickName,
         avatar: e.detail.userInfo.avatarUrl,
+        avatarHistory: [],
         gender: e.detail.userInfo.gender,
         birth: '0000-00-00',
         signature: '还没写哦~',
