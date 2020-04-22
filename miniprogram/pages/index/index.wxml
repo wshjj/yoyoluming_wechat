@@ -1,3 +1,8 @@
-<view>
-首页
+<view id="upload">
+<view class="head">
+<image src="{{myavatar}}"></image>
+</view>
+<view class="input">
+<input bindtap="uploadMood" disabled="true" placeholder="   说说今天心情？"></input>
+</view>
 </view>

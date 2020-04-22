@@ -39,6 +39,9 @@ page{
   font-size: 26px;
   margin-left: 20px;
   float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .name > button{
   margin: 0;

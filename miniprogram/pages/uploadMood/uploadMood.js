@@ -9,37 +9,30 @@ Page({
    * 页面的初始数据
    */
   data: {
-    avatarHistory:[]
+    myopenid: '',
+    uploadImg: ['cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/UWC7XRokw0.png', 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/YXLxeHwmeV.png', 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/Yc0jvj4Y8h.png']
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '载入页面中...',
-    })
-    // 通过 login 云函数获取 openid
     let getOpenid = project.fun('login', {})
     getOpenid.then(res => {
-      // openid 放入数据库查询对应用户信息
-      let myInfor = project.getUser(res.result.openid)
-      myInfor.then(res0 => {
-        // console.log(res0.data)
-        this.setData({
-          avatarHistory: res0.data[0].avatarHistory
-        })
-        wx.hideLoading()
+      this.setData({
+        myopenid: res.result.openid
       })
     })
   },
 
-  // 预览图片
-  preview:function(e){
-    let fileid = e.currentTarget.dataset.fileid
-    wx.previewImage({
-      current: fileid,
-      urls: this.data.avatarHistory,
+  test: function(){
+    let data = {tast:12}
+    let test = project.fun('databaseAdd',{
+      collectionName:'mood',
+      data: JSON.stringify(data)
+    })
+    test.then(res => {
+      console.log(res)
     })
   },
 

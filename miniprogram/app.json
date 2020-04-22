@@ -1,14 +1,18 @@
 {
   "pages": [
-    "pages/setInfo/setInfo",
-    "pages/home/home",
-    "pages/historyHead/historyHead",
-    
-    "pages/cover/cover",
+    "pages/uploadMood/uploadMood",
     "pages/index/index",
-    "pages/topic/topic",
-    "pages/secret/secret"
     
+
+    "pages/cover/cover",
+
+    "pages/topic/topic",
+    "pages/secret/secret",
+    
+    "pages/home/home",
+    "pages/setInfo/setInfo",
+    "pages/historyHead/historyHead"
+
   ],
   "window": {
     "navigationBarBackgroundColor": "#8ad7f3",

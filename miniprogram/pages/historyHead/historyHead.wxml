@@ -1,2 +1,6 @@
-<!--pages/historyHead/historyHead.wxml-->
-<text>pages/historyHead/historyHead.wxml</text>
+<!-- 这是一个展示历史头像的文件 -->
+<view>
+<view wx:for="{{avatarHistory}}" class="img" data-fileid="{{item}}" bindtap="preview">
+<image src="{{item}}"></image>
+</view>
+</view>

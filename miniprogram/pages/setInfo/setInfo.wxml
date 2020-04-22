@@ -60,7 +60,7 @@
 <!-- 输入框和确认按钮 -->
 <view class="bottom">
 <form bindsubmit="popUpSure">
-<textarea name="text"></textarea>
+<textarea name="text" maxlength="{{textarea_len}}" placeholder="{{textarea_place}}"></textarea>
 <view class="button"><button form-type="submit" type="primary">确定</button></view>
 </form>
 </view>

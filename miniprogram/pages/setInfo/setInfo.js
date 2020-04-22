@@ -24,6 +24,8 @@ Page({
     array:['保密','男','女'],
     textarea: false,
     textarea_name: "",
+    textarea_len:0,
+    textarea_place:'',
     tapHead: false,
   },
 
@@ -69,6 +71,33 @@ Page({
       textarea: true,
       textarea_name: name,
     })
+    // 根据不同的类别，确定不同的限定长度
+    switch(name){
+      case '昵称':
+        this.setData({
+          textarea_len: 15,
+          textarea_place: '昵称最长15字'
+        })
+        break;
+      case '个性签名':
+        this.setData({
+          textarea_len: 50,
+          textarea_place: '个性签名最长50字'
+        })
+        break;
+      case '爱好':
+        this.setData({
+          textarea_len: 50,
+          textarea_place: '爱好最长50字'
+        })
+        break;
+      case '自我介绍':
+        this.setData({
+          textarea_len: 100,
+          textarea_place: '自我介绍最长100字'
+        })
+        break;
+    }
   },
 
   // 关闭用来修改个人信息的弹窗
@@ -100,7 +129,7 @@ Page({
       })
       // 调用完后显示修改成功，并更新当前页面
       updateDate.then(res => {
-        console.log(res)
+        // console.log(res)
         wx.showToast({
           title: '修改成功！',
           icon: 'success',
@@ -119,15 +148,31 @@ Page({
     }
     switch(name){
       case '昵称':
+        this.setData({
+          textarea_len: 15,
+          textarea_place: '昵称最长15字'
+        })
         updataProcess({name: changeMsg });
         break;
       case '个性签名':
+        this.setData({
+          textarea_len: 50,
+          textarea_place: '个性签名最长50字'
+        })
         updataProcess({signature: changeMsg });
         break;
       case '爱好':
+        this.setData({
+          textarea_len: 50,
+          textarea_place: '爱好最长50字'
+        })
         updataProcess({ hobby: changeMsg });
         break;
       case '自我介绍':
+        this.setData({
+          textarea_len: 100,
+          textarea_place: '自我介绍最长100字'
+        })
         updataProcess({ hobby: changeMsg });
         break;
     }
@@ -190,11 +235,10 @@ Page({
           title: '上传中...',
         })
         // 如果历史头像记录中满了10个，就删掉一个后再进行下一步
-        if (that.data.userInfo.avatarHistory.length == 5){
-          console.log(that.data.userInfo.avatarHistory[4])
+        if (that.data.userInfo.avatarHistory.length == 10){
           let deleteHistoryHead = project.fun('deleteHistoryHead', {
             doc: that.data.userInfo.doc,
-            fileid: that.data.userInfo.avatarHistory[4]
+            fileid: that.data.userInfo.avatarHistory[9]
           })
           deleteHistoryHead.then(resul => {
             // console.log(res.tempFilePaths[0])
@@ -220,7 +264,7 @@ Page({
                 })
                 //调用完后显示修改成功，并更新当前页面
                 unshiftDate.then(res2 => {
-                  console.log(res2)
+                  // console.log(res2)
                   wx.showToast({
                     title: '修改成功！',
                     icon: 'success',
@@ -267,7 +311,7 @@ Page({
               })
               //调用完后显示修改成功，并更新当前页面
               unshiftDate.then(res2 => {
-                console.log(res2)
+                // console.log(res2)
                 wx.showToast({
                   title: '修改成功！',
                   icon: 'success',
@@ -276,7 +320,6 @@ Page({
                     let nowUserInfo = that.data.userInfo
                     let nowHistory = nowUserInfo.avatarHistory
                     nowHistory.unshift(nowUserInfo.avatar)
-                    nowHistory.pop()
                     nowUserInfo.avatar = res0.fileID
                     nowHistory.historyHead = nowHistory
                     that.setData({
@@ -327,7 +370,7 @@ Page({
           })
           // 调用完后显示修改成功，并更新当前页面
           updateDate.then(res => {
-            console.log(res)
+            // console.log(res)
             wx.showToast({
               title: '修改成功！',
               icon: 'success',
@@ -375,7 +418,7 @@ Page({
           })
           // 调用完后显示修改成功，并更新当前页面
           updateDate.then(res => {
-            console.log(res)
+            // console.log(res)
             wx.showToast({
               title: '修改成功！',
               icon: 'success',

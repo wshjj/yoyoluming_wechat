@@ -1,1 +1,11 @@
-/* pages/historyHead/historyHead.wxss */
+.img{
+  width: 48vw;
+  height: 48vw;
+  margin: 1vw;
+  float: left;
+  background-color: gray;
+}
+.img image{
+  width: 100%;
+  height: 100%;
+}

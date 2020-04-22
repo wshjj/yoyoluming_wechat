@@ -1,63 +1,118 @@
 //index.js
 const app = getApp()
+// 云数据库初始化
+const db = wx.cloud.database()
+// 引入 project.js
+const project = require('../../project/project.js')
 
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    avatarUrl: './user-unlogin.png',
-    userInfo: {},
-    logged: false,
-    takeSession: false,
-    requestResult: ''
+    isLogin: false,
+    myavatar: 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/head_default.png',
+    mydoc: '',
+    
   },
 
-  onLoad: function() {
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function () {
     // 获取用户信息
     wx.getSetting({
       success: res => {
+        // 判断是否授权
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
+          // 通过 login 云函数获取 openid
+          let getOpenid = project.fun('login', {})
+          getOpenid.then(res => {
+            // openid 放入数据库查询对应用户信息
+            let myInfor = project.getUser(res.result.openid)
+            myInfor.then(res0 => {
               this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
+                myavatar: res0.data[0].avatar,
+                mydoc: res0.data[0]._id,
+                isLogin: true
               })
-            }
+            })
           })
         }
       }
     })
   },
 
-  onGetUserInfo: function(e) {
-    if (!this.data.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
+  uploadMood:function(){
+    if(this.data.isLogin){
+      wx.navigateTo({
+        url: '../uploadMood/uploadMood',
+      })
+    }else{
+      wx.showModal({
+        title: '警告',
+        content: '你还没有登录，登录后才可发表心情；是否前往个人中心登录？',
+        success(res) {
+          if (res.confirm) {
+            // console.log('用户点击确定')
+            wx.reLaunch({
+              url: '../home/home',
+            })
+          } else if (res.cancel) {
+            // console.log('用户点击取消')
+          }
+        }
       })
     }
   },
 
-  onGetOpenid: function() {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
-        })
-      },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
-        })
-      }
-    })
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    
   },
 
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    
+  }
 })
