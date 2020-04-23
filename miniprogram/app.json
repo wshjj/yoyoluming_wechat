@@ -1,8 +1,7 @@
 {
   "pages": [
-    "pages/uploadMood/uploadMood",
     "pages/index/index",
-    
+    "pages/uploadMood/uploadMood",
 
     "pages/cover/cover",
 

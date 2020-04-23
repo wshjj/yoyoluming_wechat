@@ -2,22 +2,25 @@
 <form bindsubmit="uploadMood">
 
 <view class="textarea">
-<textarea maxlength="200" placeholder=" 分享你的心情 ^_^ "></textarea>
+<textarea maxlength="200" placeholder=" 分享你的心情 ^_^ " name="content"></textarea>
 </view>
 <view class="state">200字以内</view>
 
 <view class="groupImg">
-<view class="img" wx:for="{{uploadImg}}">
-<view class="imgx" data-file="{{item}}" bindtap="rmImg">X</view>
-<image src="{{item}}"></image>
+<view class="img" wx:for="{{uploadImg}}" data-file="{{item}}" bindtap="watchImg">
+<view wx:if="{{loading}}" class="loading">
+<image src="../../images/loading.gif"></image>
 </view>
-<view class="img">
+<view class="imgx" data-index="{{index}}" catchtap="removeImg">X</view>
+<image src="{{item}}" bindload="loadend"></image>
+</view>
+<view class="img" style="margin-bottom:21vw" bindtap="addImg">
 <image src="cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/uploadImg.png"></image>
 </view>
 </view>
 
 <view class="btn">
-<button type="primary">发表</button>
+<button type="primary" form-type="submit">发表</button>
 </view>
 
 </form>

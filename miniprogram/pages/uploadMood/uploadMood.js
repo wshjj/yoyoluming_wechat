@@ -10,7 +10,8 @@ Page({
    */
   data: {
     myopenid: '',
-    uploadImg: ['cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/UWC7XRokw0.png', 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/YXLxeHwmeV.png', 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/Yc0jvj4Y8h.png']
+    uploadImg: [],
+    loading: true,
   },
 
   /**
@@ -25,15 +26,112 @@ Page({
     })
   },
 
-  test: function(){
-    let data = {tast:12}
-    let test = project.fun('databaseAdd',{
-      collectionName:'mood',
-      data: JSON.stringify(data)
+  // 预览上传的图片
+  watchImg: function(e){
+    let fileid = e.currentTarget.dataset.file
+    wx.previewImage({
+      current: fileid,
+      urls: this.data.uploadImg,
     })
-    test.then(res => {
-      console.log(res)
+  },
+
+  // 移除上传的图片
+  removeImg: function(e){
+    let index = e.currentTarget.dataset.index
+    let nowUploadImg = this.data.uploadImg
+    nowUploadImg.splice(index,1)
+    this.setData({
+      uploadImg: nowUploadImg,
+      loading: true,
     })
+  },
+
+  // 图片渲染完毕的事件
+  loadend: function(){
+    // 将图片上的遮挡去掉
+    this.setData({
+      loading:false
+    })
+  },
+
+  // 添加图片事件
+  addImg:function(){
+    let nowUploadImg = this.data.uploadImg
+    let that = this
+    if(nowUploadImg.length == 9){
+      wx.showModal({
+        title: '提示',
+        content: '最多上传9张图片哦！',
+        showCancel: false,
+        confirmText: '我知道了'
+      })
+    }else{
+      wx.chooseImage({
+        count: 9 - nowUploadImg.length,
+        success: function (res) {
+          // console.log(res.tempFilePaths)
+          that.setData({
+            uploadImg:nowUploadImg.concat(res.tempFilePaths),
+            loading: true
+          })
+        },
+      })
+    }
+  },
+
+  uploadMood: function(e){
+    wx.showLoading({
+      title: '上传图片中...',
+    })
+    let content = e.detail.value.content
+    let openid = this.data.myopenid
+    let filelist = this.data.uploadImg
+    let upImgList = []
+    // 将临时图片文件上传云空间，并且换出 fileid
+    // 递归写法
+    function upload(){
+      if(upImgList.length < filelist.length){
+        let uploadImg = project.uploadImg('mood', filelist[upImgList.length])
+        uploadImg.then(res => {
+          // console.log(res.fileID)
+          upImgList.push(res.fileID)
+          upload()
+        })
+      }else{
+        wx.showToast({
+          title: '图片上传成功',
+          success: function(){
+            wx.showLoading({
+              title: '上传说说中...',
+            })
+            let data = {
+              openid: openid,
+              content: content,
+              imgList: upImgList,
+              zanList: [],
+              commentList: [],
+              setTop: false
+            }
+            let test = project.fun('databaseAdd',{
+              collectionName:'mood',
+              data: JSON.stringify(data)
+            })
+            test.then(res => {
+              // console.log(res)
+              wx.showToast({
+                title: '上传成功！',
+                success: function(){
+                  wx.switchTab({
+                    url: '../index/index',
+                  })
+                }
+              })
+            })
+          }
+        })
+      }
+    }
+    upload()
   },
 
   /**
