@@ -2,7 +2,7 @@
 <view wx:if="{{!login}}">
 <!--头像和昵称/登录-->
 <view class="head_name">
-<view class="head"><image src="{{avatarUrl}}"></image></view>
+<view class="head"><image mode="aspectFill" src="{{avatarUrl}}"></image></view>
 <view class="name">
 <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点我登录</button>
 </view>

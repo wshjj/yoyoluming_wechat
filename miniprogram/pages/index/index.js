@@ -14,7 +14,7 @@ Page({
     isLogin: false,
     myavatar: 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/head_default.png',
     mydoc: '',
-    
+    moodList: []
   },
 
   /**
@@ -32,10 +32,14 @@ Page({
             // openid 放入数据库查询对应用户信息
             let myInfor = project.getUser(res.result.openid)
             myInfor.then(res0 => {
-              this.setData({
-                myavatar: res0.data[0].avatar,
-                mydoc: res0.data[0]._id,
-                isLogin: true
+              db.collection('mood').get().then(res1 => {
+                console.log(res1.data)
+                this.setData({
+                  myavatar: res0.data[0].avatar,
+                  mydoc: res0.data[0]._id,
+                  isLogin: true,
+                  moodList: res1.data
+                })
               })
             })
           })
@@ -78,7 +82,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    // 到 mood 数据库中获取心情广场的数据
+    db.collection('mood').get().then(res => {
+      console.log(res.data)
+      this.setData({
+        moodList: res.data
+      })
+    })
   },
 
   /**

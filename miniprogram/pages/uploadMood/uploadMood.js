@@ -10,6 +10,8 @@ Page({
    */
   data: {
     myopenid: '',
+    authorAvatar: '',
+    authorName: '',
     uploadImg: [],
     loading: true,
   },
@@ -20,8 +22,15 @@ Page({
   onLoad: function (options) {
     let getOpenid = project.fun('login', {})
     getOpenid.then(res => {
-      this.setData({
-        myopenid: res.result.openid
+      // openid 放入数据库查询对应用户信息
+      let myInfor = project.getUser(res.result.openid)
+      myInfor.then(res0 => {
+        console.log(res0.data)
+        this.setData({
+          myopenid: res.result.openid,
+          authorAvatar: res0.data[0].avatar,
+          authorName: res0.data[0].name,
+        })
       })
     })
   },
@@ -79,18 +88,38 @@ Page({
     }
   },
 
+  // 发表心情说说事件
   uploadMood: function(e){
-    wx.showLoading({
-      title: '上传图片中...',
-    })
     let content = e.detail.value.content
+    let that = this
+    // 如果文字内容为空，则不能上传
+    if(content == ""){
+      wx.showModal({
+        title: '提示',
+        content: '请输入文字内容',
+        showCancel: false,
+        confirmText: '我知道了',
+      })
+      return false
+    }
+    // 发表者信息
     let openid = this.data.myopenid
+    let avatar = this.data.authorAvatar
+    let name = this.data.authorName
+    // 临时图片链接列表
     let filelist = this.data.uploadImg
+    // 用于承接临时链接换为的云空间文件 id
     let upImgList = []
     // 将临时图片文件上传云空间，并且换出 fileid
     // 递归写法
     function upload(){
-      if(upImgList.length < filelist.length){
+      if (filelist.length != 0){
+        wx.showLoading({
+          title: '上传图片中...',
+        })
+      }
+      // 没换完则继续
+      if (upImgList.length < filelist.length){
         let uploadImg = project.uploadImg('mood', filelist[upImgList.length])
         uploadImg.then(res => {
           // console.log(res.fileID)
@@ -98,37 +127,78 @@ Page({
           upload()
         })
       }else{
-        wx.showToast({
-          title: '图片上传成功',
-          success: function(){
-            wx.showLoading({
-              title: '上传说说中...',
-            })
-            let data = {
-              openid: openid,
-              content: content,
-              imgList: upImgList,
-              zanList: [],
-              commentList: [],
-              setTop: false
+        // 将数据上传到数据库的函数
+        function uploadData(borderLength) {
+          wx.showToast({
+            title: filelist.length == 0 ? '上传说说中...' : '图片上传成功',
+            icon: filelist.length == 0 ? 'loading' : 'success',
+            success: function () {
+              wx.showLoading({
+                title: '上传说说中...',
+              })
+              let data = {
+                openid: openid,
+                authorName: name,
+                authorAvatar: avatar,
+                time: project.getNowTime(),
+                content: content,
+                imgList: upImgList,
+                borderLength: borderLength,
+                zanList: [],
+                commentList: [],
+                setTop: false,
+                delte: false
+              }
+              let test = project.fun('databaseAdd', {
+                collectionName: 'mood',
+                data: JSON.stringify(data)
+              })
+              test.then(res => {
+                // console.log(res)
+                wx.showToast({
+                  title: '上传成功！',
+                  success: function () {
+                    wx.switchTab({
+                      url: '../index/index',
+                    })
+                  }
+                })
+              })
             }
-            let test = project.fun('databaseAdd',{
-              collectionName:'mood',
-              data: JSON.stringify(data)
-            })
-            test.then(res => {
-              // console.log(res)
+          })
+        }
+        // 如果图片是单张，则上传个数据用于区分图片的长短边
+        if(upImgList.length == 1){
+          wx.getImageInfo({
+            src: upImgList[0],
+            success(res) {
+              console.log(res)
+              let borderLength = res.width > res.height ? 'width' : 'height'
+              uploadData(borderLength)
+            },
+            fail(res) {
               wx.showToast({
-                title: '上传成功！',
+                title: '不支持上传的图片格式',
+                icon: 'none',
                 success: function(){
-                  wx.switchTab({
-                    url: '../index/index',
+                  wx.cloud.deleteFile({
+                    fileList: upImgList,
+                    success: res => {
+                      // handle success
+                      // console.log(res.fileList)
+                      that.setData({
+                        uploadImg: []
+                      })
+                    },
+                    // fail: console.error
                   })
                 }
               })
-            })
-          }
-        })
+            }
+          })
+        }else{
+          uploadData('none')
+        }
       }
     }
     upload()

@@ -3,7 +3,7 @@
 
 <view class="group_head" bindtap="tapHead">
 <view>头像</view>
-<view><image src="{{userInfo.avatar}}"></image></view>
+<view><image mode="aspectFill" src="{{userInfo.avatar}}"></image></view>
 </view>
 
 <view class="group" data-name="昵称" bindtap="popUp">

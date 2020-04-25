@@ -1,6 +1,18 @@
 // 云数据库初始化
 const db = wx.cloud.database()
 
+// 这是一个获取时间并且返回时间的函数
+const getNowTime = () => {
+  let d = new Date()
+  let year = d.getFullYear()
+  let month = (Array(2).join(0) + d.getMonth()).slice(-2)
+  let date = (Array(2).join(0) + d.getDate()).slice(-2)
+  let hour = (Array(2).join(0) + d.getHours()).slice(-2)
+  let minute = (Array(2).join(0) + d.getMinutes()).slice(-2)
+  let second = (Array(2).join(0) + d.getSeconds()).slice(-2)
+  return `${year}-${month}-${date} ${hour}:${minute}:${second}`
+}
+
 // 这是一个用于调用云函数的函数
 // name 为调用的云函数名字
 // data 为传递给云函数的数据
@@ -47,6 +59,7 @@ const uploadImg = (path,file) => {
 }
 
 module.exports = {
+  getNowTime,
   fun,
   getUser,
   createRandomStr,

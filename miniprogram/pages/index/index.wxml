@@ -6,3 +6,52 @@
 <input bindtap="uploadMood" disabled="true" placeholder="   说说今天心情？"></input>
 </view>
 </view>
+
+<view id="moodContent">
+<view wx:for="{{moodList}}" wx:for-item="item" class="moodcard">
+<!-- 发表者信息 -->
+<view class="author">
+<view><image mode="aspectFill" src="{{item.authorAvatar}}"></image></view>
+<view>{{item.authorName}}</view>
+<view><image src="cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/others.png"></image></view>
+</view>
+<!-- 发表的时间 -->
+<view class="time">
+{{item.time}}
+</view>
+<!-- 发表的内容 -->
+<view class="content">
+{{item.content}}
+</view>
+<!-- 发表的图片 -->
+<view class="img" wx:if="{{item.imgList.length != 0}}">
+<!-- 单张图片 -->
+<view wx:if="{{item.imgList.length == 1}}" class="{{item.borderLength == 'width' ? 'img1_width' : 'img1_height'}}">
+<image mode="{{item.borderLength == 'width' ? 'widthFix' : 'heightFix'}}" src="{{item.imgList[0]}}"></image>
+</view>
+<!-- 两张或者四张图片 -->
+<view wx:elif="{{item.imgList.length == 2 || item.imgList.length == 4}}" class="img2Group">
+<view class="img2" wx:for="{{item.imgList}}" wx:for-item="imgItem">
+<image mode="aspectFill" src="{{imgItem}}"></image>
+</view>
+</view>
+<!-- 其他张数情况 -->
+<view wx:else class="img3Group">
+<view class="img3" wx:for="{{item.imgList}}" wx:for-item="imgItem">
+<image mode="aspectFill" src="{{imgItem}}"></image>
+</view>
+</view>
+</view>
+<!-- 点赞评论 -->
+<view class="attitude">
+<view class="likeComm">
+<image src="../../images/like.png"></image>
+<view>{{item.zanList.length}}</view>
+</view>
+<view class="likeComm">
+<image src="../../images/comment.png"></image>
+<view>{{item.commentList.length}}</view>
+</view>
+</view>
+</view>
+</view>
