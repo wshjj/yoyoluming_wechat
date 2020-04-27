@@ -8,12 +8,22 @@
 </view>
 
 <view id="moodContent">
-<view wx:for="{{moodList}}" wx:for-item="item" class="moodcard">
+<view wx:for="{{moodList}}" wx:for-item="item" class="moodcard" data-item="{{item}}" catchtap="watchItem">
 <!-- 发表者信息 -->
-<view class="author">
+<view class="author" data-openid="{{item.openid}}" catchtap="watchUser">
 <view><image mode="aspectFill" src="{{item.authorAvatar}}"></image></view>
 <view>{{item.authorName}}</view>
-<view><image src="cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/others.png"></image></view>
+</view>
+<!-- 右上角三个点 -->
+<view class="others"><image data-index="{{index}}" catchtap="others" src="cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/others.png"></image></view>
+<!-- 弹出收藏和举报的选项 -->
+<view class="menuBack" wx:if="{{item.hasOthers}}">
+<view bindtap="cancelOthers" data-index="{{index}}"></view>
+<view class="menu">
+<view data-doc="{{item._id}}" data-index="{{index}}" bindtap="collect">收藏</view>
+<view data-doc="{{item._id}}" bindtap="inform">举报</view>
+<view  bindtap="cancelOthers" data-index="{{index}}">取消</view>
+</view>
 </view>
 <!-- 发表的时间 -->
 <view class="time">
@@ -27,18 +37,18 @@
 <view class="img" wx:if="{{item.imgList.length != 0}}">
 <!-- 单张图片 -->
 <view wx:if="{{item.imgList.length == 1}}" class="{{item.borderLength == 'width' ? 'img1_width' : 'img1_height'}}">
-<image mode="{{item.borderLength == 'width' ? 'widthFix' : 'heightFix'}}" src="{{item.imgList[0]}}"></image>
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{item.imgList[0]}}" mode="{{item.borderLength == 'width' ? 'widthFix' : 'heightFix'}}" src="{{item.imgList[0]}}"></image>
 </view>
 <!-- 两张或者四张图片 -->
 <view wx:elif="{{item.imgList.length == 2 || item.imgList.length == 4}}" class="img2Group">
 <view class="img2" wx:for="{{item.imgList}}" wx:for-item="imgItem">
-<image mode="aspectFill" src="{{imgItem}}"></image>
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{imgItem}}" mode="aspectFill" src="{{imgItem}}"></image>
 </view>
 </view>
 <!-- 其他张数情况 -->
 <view wx:else class="img3Group">
 <view class="img3" wx:for="{{item.imgList}}" wx:for-item="imgItem">
-<image mode="aspectFill" src="{{imgItem}}"></image>
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{imgItem}}" mode="aspectFill" src="{{imgItem}}"></image>
 </view>
 </view>
 </view>

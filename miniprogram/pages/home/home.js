@@ -69,6 +69,8 @@ Page({
         signature: '还没写哦~',
         hobby: '无',
         intro: '这个人很懒，啥也没写。',
+        moodFavorite: [],
+        topicFavorite: []
       }
       // 使用 databaseAdd 云函数将用户存入数据库
       let addDate = project.fun('databaseAdd', {

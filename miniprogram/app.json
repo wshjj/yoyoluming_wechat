@@ -2,6 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/uploadMood/uploadMood",
+    "pages/userCard/userCard",
+    "pages/moodDetail/moodDetail",
+    "pages/inform/inform",
 
     "pages/cover/cover",
 

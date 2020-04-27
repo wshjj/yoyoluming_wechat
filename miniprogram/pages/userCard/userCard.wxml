@@ -1,0 +1,3 @@
+<!--pages/userCard/userCard.wxml-->
+<text>pages/userCard/userCard.wxml</text>
+<view>openid为：{{openid}}</view>
