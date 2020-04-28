@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    flag_uploadMood: false,
     myopenid: '',
     authorAvatar: '',
     authorName: '',
@@ -102,6 +103,10 @@ Page({
       })
       return false
     }
+    if(that.data.flag_uploadMood){return false}
+    that.setData({
+      flag_uploadMood: true
+    })
     // 发表者信息
     let openid = this.data.myopenid
     let avatar = this.data.authorAvatar
@@ -187,7 +192,8 @@ Page({
                       // handle success
                       // console.log(res.fileList)
                       that.setData({
-                        uploadImg: []
+                        uploadImg: [],
+                        flag_uploadMood:false,
                       })
                     },
                     // fail: console.error

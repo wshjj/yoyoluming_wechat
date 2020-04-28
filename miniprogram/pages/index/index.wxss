@@ -19,7 +19,7 @@ page{
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: rgba(230, 230, 230, 0.7);
+  background-color: GhostWhite;
 }
 .input{
   width: 80vw;
@@ -31,7 +31,7 @@ page{
   width: 100%;
   height: 100%;
   border-radius: 6vw;
-  background-color: rgba(230, 230, 230, 0.7);
+  background-color: rgba(230, 230, 230, 0.6);
 }
 #moodContent{
   margin-top: 14vw;
@@ -113,7 +113,6 @@ page{
   left: 0px;
   width: 100vw;
   height: 26vh;
-  background-color: rgba(180, 180, 180, 0.6);
 }
 .menu view{
   position: fixed;
@@ -160,6 +159,7 @@ page{
 .img1_width{
   width: 82vw;
   height: auto;
+  background-color: GhostWhite;
 }
 .img1_width image{
   width: 82vw;
@@ -168,6 +168,8 @@ page{
 .img1_height{
   height: 82vw;
   width: auto;
+  display: inline-block;
+  background-color: GhostWhite;
 }
 .img1_height image{
   height: 82vw;
@@ -177,6 +179,7 @@ page{
   width: 40vw;
   height: 40vw;
   margin: 1vw 1vw 1vw 0;
+  background-color: GhostWhite;
 }
 .img2Group{
   display: flex;
@@ -190,6 +193,7 @@ page{
   width: 26vw;
   height: 26vw;
   margin: 1vw 1vw 1vw 0;
+  background-color: GhostWhite;
 }
 .img3Group{
   display: flex;

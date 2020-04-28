@@ -15,7 +15,7 @@
 <image mode="aspectFill" src="{{item}}" bindload="loadend"></image>
 </view>
 <view class="img" style="margin-bottom:21vw" bindtap="addImg">
-<image src="cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/uploadImg.png"></image>
+<image src="../../images/uploadImg.png"></image>
 </view>
 </view>
 

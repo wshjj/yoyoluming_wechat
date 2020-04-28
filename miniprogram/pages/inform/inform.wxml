@@ -1,2 +1,21 @@
-<!--pages/inform/inform.wxml-->
-<text>pages/inform/inform.wxml</text>
+<form bindsubmit="inform">
+<view class="question">举报类型(不填)：</view>
+<view class="answer" style="background-color:GhostWhite">{{typeWord}}</view>
+
+<view class="question">举报的说说id(不填)：</view>
+<view class="answer" style="background-color:GhostWhite">{{informIdPart+'******'}}</view>
+
+<view class="question">请选择违规类型：</view>
+<picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+  <view class="answer">
+    {{array[index]}}
+  </view>
+</picker>
+
+<view class="question">具体描述举报的原因：</view>
+<textarea name="reason" placeholder="{{index == 4 ? '必填' : ''}}"></textarea>
+
+<view class="btn">
+<button type="primary" form-type="submit">提交</button>
+</view>
+</form>
