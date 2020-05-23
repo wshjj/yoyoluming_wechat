@@ -1,1 +1,160 @@
-/* pages/userCard/userCard.wxss */
+page{
+  background-color: rgba(200, 200, 200, 0.8);
+}
+#card{
+  width: 94vw;
+  height: 86vh;
+  margin: 2vh 3vw;
+  background-color: rgba(255, 239, 213, 0.85);
+  border-radius: 30px;
+  overflow: scroll;
+}
+.base{
+  width: 94vw;
+  height: 25vw;
+  display: flex;
+}
+.head{
+  width: 23vw;
+  height: 23vw;
+  margin: 1vw;
+  border-radius: 50%;
+  background-color: ghostwhite;
+  display: inline-block;
+}
+.head image{
+  width: 23vw;
+  height: 23vw;
+  border-radius: 50%;
+}
+.base_text{
+  width: 50vw;
+  height: 25vw;
+  display: flex;
+  flex-wrap: wrap;
+}
+.base_like{
+  width: 14vw;
+  height: 25vw;
+  margin-left: 4vw;
+}
+.base_like > view:nth-child(1){
+  width: 10vw;
+  height: 10vw;
+  margin: 3vw 3vw 1vw 1vw;
+}
+.base_like > view:nth-child(1) > image{
+  width: 100%;
+  height: 100%;
+}
+.base_like > view:nth-child(2){
+  width: 10vw;
+  height: 6vw;
+  margin: 0vw 3vw 5vw 1vw;
+  font-size: 20px;
+  text-align: center;
+  line-height: 6vw;
+}
+.name{
+  width: 59vw;
+  height: 14vw;
+  margin: 1vw 1vw 1vw 4vw;
+  font-size: 24px;
+  font-family: '隶书';
+  line-height: 14vw;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gender{
+  width: 14.5vw;
+  height: 6vw;
+  margin: 1.5vw 4vw;
+  font-size: 14px;
+  line-height: 6vw;
+  text-align: center;
+  display: inline-block;
+  border-radius: 5px;
+}
+.unknow{
+  background-color: rgb(200, 200, 200);
+  color: rgb(115, 115, 115);
+}
+.boy{
+  background-color: lightblue;
+  color: blue;
+}
+.girl{
+  background-color: pink;
+  color: palevioletred;
+}
+.age{
+  width: 14.5vw;
+  height: 6vw;
+  margin: 2vw 4vw;
+  font-size: 14px;
+  line-height: 6vw;
+  text-align: center;
+  display: inline-block;
+  border-radius: 5px;
+  background-color: lightgreen;
+  color: green;
+}
+.group{
+  width: 86vw;
+  padding: 0vw 2vw;
+  margin: 10px 2vw;
+  border-radius: 15px;
+}
+.group > view:nth-child(1){
+  width: 100%;
+  height: 28px;
+  font-size: 18px;
+  font-family: '微软雅黑';
+  line-height: 28px;
+  border-bottom: 0.5px solid rgba(190, 190, 190, 0.8);
+}
+.group > view:nth-child(2){
+  width: 100%;
+  font-size: 20px;
+  font-family: '楷体';
+  line-height: 28px;
+  text-indent: 2em;
+}
+.gxqm{
+  background-color: rgb(253, 201, 181);
+  color: rgb(255, 104, 44);
+}
+.ah{
+  background-color: lightgreen;
+  color: green;
+}
+.zwjs{
+  background-color: lightblue;
+  color: blue;
+}
+.lxfs{
+  background-color: rgb(255, 159, 255);
+  color: rgb(128, 0, 128);
+}
+.btn{
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 10vh;
+  background-color: rgba(255, 235, 202, 0.7);
+  display: flex;
+}
+.btn > button{
+  width: 30vw;
+  height: 40px;
+  font-size: 16px;
+  margin-top: 6px;
+  padding: 0px 3px;
+  line-height: 40px;
+}
+button:not([size='mini']){
+  width: 30vw !important;
+}

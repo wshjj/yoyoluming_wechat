@@ -1,2 +1,100 @@
-<!--pages/moodDetail/moodDetail.wxml-->
-<text>pages/moodDetail/moodDetail.wxml</text>
+<view id="wrap">
+<!-- 主要内容 -->
+<view class="main">
+<!-- 发表者信息 -->
+<view class="author" data-openid="{{item.openid}}" catchtap="watchUser">
+<view><image mode="aspectFill" src="{{item.authorAvatar}}"></image></view>
+<view>{{item.authorName}}</view>
+</view>
+<!-- 发表的时间 -->
+<view class="time">
+{{item.time}}
+</view>
+<!-- 发表的内容 -->
+<view class="content">
+{{item.content}}
+</view>
+<!-- 发表的图片 -->
+<view class="img" wx:if="{{item.imgList.length != 0}}">
+<!-- 单张图片 -->
+<view wx:if="{{item.imgList.length == 1}}" class="{{item.borderLength == 'width' ? 'img1_width' : 'img1_height'}}">
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{item.imgList[0]}}" mode="{{item.borderLength == 'width' ? 'widthFix' : 'heightFix'}}" src="{{item.imgList[0]}}"></image>
+</view>
+<!-- 两张或者四张图片 -->
+<view wx:elif="{{item.imgList.length == 2 || item.imgList.length == 4}}" class="img2Group">
+<view class="img2" wx:for="{{item.imgList}}" wx:for-item="imgItem">
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{imgItem}}" mode="aspectFill" src="{{imgItem}}"></image>
+</view>
+</view>
+<!-- 其他张数情况 -->
+<view wx:else class="img3Group">
+<view class="img3" wx:for="{{item.imgList}}" wx:for-item="imgItem">
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{imgItem}}" mode="aspectFill" src="{{imgItem}}"></image>
+</view>
+</view>
+</view>
+<!-- 点赞评论 -->
+<view class="attitude">
+<view class="likeComm">
+<image bindtap="zan" src="../../images/{{isZan == -1 ? 'like' : 'liked'}}.png"></image>
+<view>{{item.zanList.length < 1000 ? item.zanList.length : (item.zanList.length - item.zanList.length%1000)/1000 + 'k'}}</view>
+</view>
+<view class="likeComm">
+<image src="../../images/comment.png"></image>
+<view>{{item.commentList.length < 1000 ? item.commentList.length : (item.commentList.length - item.commentList.length%1000)/1000 + 'k'}}</view>
+</view>
+</view>
+</view>
+<!-- </view> -->
+<!-- 评论区 -->
+<view class="comment">
+<view class="comTop">评论 {{item.commentList.length}}</view>
+<view class="comMiddle" style="padding: 5px 2vw {{uploadImg.length == 0 ? 95 : 155}}px 2vw">
+<view class="comGroup" wx:for="{{item.commentList}}" wx:for-item="comItem">
+<view class="info" data-openid="{{comItem.openid}}" catchtap="watchUser">
+<view><image src="{{comItem.authorAvatar}}"></image></view>
+<view>{{comItem.authorName}}</view>
+<view>{{comItem.time}}</view>
+</view>
+<view class="comText">
+{{comItem.content}}
+</view>
+<view class="comItemImg">
+<image catchtap="preImg" data-files="{{comItem.imgList}}" data-fileid="{{comImgItem}}" wx:for="{{comItem.imgList}}" wx:for-item="comImgItem" src="{{comImgItem}}"></image>
+</view>
+</view>
+</view>
+</view>
+</view>
+
+<!-- 固定在底部的发表评论区 -->
+<view class="commentDown" catchtap="unPopComment" wx:if="{{popText}}"></view>
+<view class="sendCom">
+<!-- 文本框和图片 -->
+<form bindsubmit="sendComment">
+<!-- 弹出来后 -->
+<view class="comContent0" wx:if="{{popText}}">
+<textarea name="comContent" auto-height="true" auto-focus="true" maxlength="100" bindinput="input" fixed="true" show-confirm-bar="{{false}}" cursor-spacing="{{uploadImg.length == 0 ? 55 : 115}}" value="{{commentInput}}" placeholder="想说点什么(100字内)..."></textarea>
+<!-- 评论的图片 -->
+<view class="imgGruop">
+<view class="comImg" wx:for="{{uploadImg}}" data-file="{{item}}" bindtap="watchImg">
+<view wx:if="{{loading}}" class="loading">
+<image src="../../images/loading.gif"></image>
+</view>
+<view class="imgx" data-index="{{index}}" catchtap="removeImg">X</view>
+<image mode="aspectFill" src="{{item}}" bindload="loadend"></image>
+</view>
+</view>
+<view class="takePlace"></view>
+</view>
+<!-- 弹出来之前 -->
+<view class="comContent1" wx:else catchtap="popComment">
+<textarea disabled="true" fixed="true" placeholder="写评论..."></textarea>
+</view>
+<!-- 发布以及上传图片的按钮 -->
+<view class="btn" wx:if="{{popText}}">
+<view><button form-type="submit">发布</button></view>
+<image catchtap="addImg" src="../../images/imgIcon.png"></image>
+</view>
+</form>
+</view>

@@ -31,6 +31,8 @@
 </view>
 <!-- 发表的内容 -->
 <view class="content">
+<view wx:if="{{item.setTop}}" class="top_hot">置顶</view>
+<view wx:if="{{item.zanList.length > 99}}" class="top_hot">热门</view>
 {{item.content}}
 </view>
 <!-- 发表的图片 -->
@@ -56,12 +58,23 @@
 <view class="attitude">
 <view class="likeComm">
 <image src="../../images/like.png"></image>
-<view>{{item.zanList.length}}</view>
+<view>{{item.zanList.length < 1000 ? item.zanList.length : (item.zanList.length - item.zanList.length%1000)/1000 + 'k'}}</view>
 </view>
 <view class="likeComm">
 <image src="../../images/comment.png"></image>
-<view>{{item.commentList.length}}</view>
+<view>{{item.commentList.length < 1000 ? item.commentList.length : (item.commentList.length - item.commentList.length%1000)/1000 + 'k'}}</view>
 </view>
 </view>
 </view>
+</view>
+
+<!-- 加载更多 -->
+<view wx:if="{{toBottom}}">
+<view wx:if="{{over}}" class="toBottom">已经到底了哦~</view>
+<view wx:else bindtap="getMore" class="uploadMore">点我加载更多</view>
+</view>
+
+<!-- 刷新页面 -->
+<view class="fresh" catchtap="fresh">
+<image src="../../images/fresh.png"></image>
 </view>

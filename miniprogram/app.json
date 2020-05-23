@@ -1,20 +1,23 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/uploadMood/uploadMood",
-    "pages/userCard/userCard",
-    "pages/moodDetail/moodDetail",
-    "pages/inform/inform",
+    "pages/secret/secret",
+    "pages/uploadSecret/uploadSecret",
+    "pages/secretDetail/secretDetail",
 
     "pages/cover/cover",
 
-    "pages/topic/topic",
-    "pages/secret/secret",
+    "pages/index/index",
+    "pages/uploadMood/uploadMood",
+    "pages/moodDetail/moodDetail",
+    
+    "pages/inform/inform",
+    "pages/userCard/userCard",
+    "pages/sendMessage/sendMessage",
     
     "pages/home/home",
     "pages/setInfo/setInfo",
-    "pages/historyHead/historyHead"
-
+    "pages/historyHead/historyHead",
+    "pages/myMessage/myMessage"
   ],
   "window": {
     "navigationBarBackgroundColor": "#8ad7f3",
@@ -29,11 +32,6 @@
       "text": "心情广场",
       "iconPath": "images/mood.png",
       "selectedIconPath": "images/mood_sel.png"
-    },{
-      "pagePath": "pages/topic/topic",
-      "text": "话题说",
-      "iconPath": "images/topic.png",
-      "selectedIconPath": "images/topic_sel.png"
     },{
       "pagePath": "pages/secret/secret",
       "text": "匿名说",

@@ -10,14 +10,20 @@ Page({
    */
   data: {
     login: true,
-    avatarUrl: 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/head_default.png',
-    name: '...'
+    myInfo: {},
+    likeList: [],
+    navTitle: "",
+    isList: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    })
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -28,13 +34,13 @@ Page({
           let getOpenid = project.fun('login', {})
           getOpenid.then(res => {
             // openid 放入数据库查询对应用户信息
-            let myInfor = project.getUser(res.result.openid)
-            myInfor.then(res0 =>{
-              console.log(res0.data)
+            let myInfo = project.getUser(res.result.openid)
+            myInfo.then(res0 =>{
+              // console.log(res0.data)
               this.setData({
-                avatarUrl: res0.data[0].avatar,
-                name: res0.data[0].name,
+                myInfo: res0.data[0],
               })
+              wx.hideLoading()
             })
           })
         }
@@ -43,6 +49,7 @@ Page({
           this.setData({
             login: false
           })
+          wx.hideLoading()
         }
       }
     })
@@ -54,6 +61,7 @@ Page({
   bindGetUserInfo: function (e) {
     wx.showLoading({
       title: '加载中',
+      mask: true
     })
     // 通过 login 云函数获取 openid
     let getOpenid = project.fun('login', {})
@@ -69,8 +77,15 @@ Page({
         signature: '还没写哦~',
         hobby: '无',
         intro: '这个人很懒，啥也没写。',
+        qq: '未填',
+        wechat: '未填',
         moodFavorite: [],
-        topicFavorite: []
+        topicFavorite: [],
+        likeMe: [],
+        myLike: [],
+        blackName: [],
+        message: [],
+        unread: false
       }
       // 使用 databaseAdd 云函数将用户存入数据库
       let addDate = project.fun('databaseAdd', {
@@ -104,6 +119,55 @@ Page({
     })
   },
 
+  // 弹出一个列表，包括我关注的用户或关注我的用户
+  popList: function(e){
+    let navTitle
+    let likeList
+    switch(e.currentTarget.dataset.type){
+      case 'concern': {
+        navTitle = '我的关注'
+        likeList = this.data.myInfo.myLike
+        break
+      }
+      case 'fans': {
+        navTitle = '关注我的'
+        likeList = this.data.myInfo.likeMe
+        break
+      }
+    }
+    this.setData({
+      isList: true,
+      navTitle: navTitle,
+      likeList: likeList
+    })
+  },
+
+  // 关闭弹出的列表
+  cancelList: function(){
+    this.setData({
+      isList: false
+    })
+  },
+
+  // 查看用户个人卡片
+  watchUser: function (e) {
+    wx.navigateTo({
+      url: '../userCard/userCard?openid=' + e.currentTarget.dataset.openid + '&myOpenid=' + this.data.myInfo.openid + '&myDoc=' + this.data.myInfo._id
+    })
+  },
+
+  // 跳转查看我的消息
+  myMessage: function(){
+    let nowMyInfo = this.data.myInfo
+    nowMyInfo.unread = false
+    this.setData({
+      myInfo: nowMyInfo
+    })
+    wx.navigateTo({
+      url: '../myMessage/myMessage',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -115,14 +179,30 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if(this.data.login){
+      wx.showLoading({
+        title: '更新用户信息...',
+        mask: true
+      })
+      // openid 放入数据库查询对应用户信息
+      let myInfo = project.getUser(this.data.myInfo.openid)
+      myInfo.then(res0 => {
+        // console.log(res0.data)
+        this.setData({
+          myInfo: res0.data[0],
+        })
+        wx.hideLoading()
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    this.setData({
+      isList: false
+    })
   },
 
   /**

@@ -19,6 +19,8 @@ Page({
       signature: '不一样的我',
       hobby: '我的爱好',
       intro: '这就是我',
+      qq: '未填',
+      wechat: '未填',
       avatarHistory: []
     },
     array:['保密','男','女'],
@@ -35,6 +37,7 @@ Page({
   onLoad: function (options) {
     wx.showLoading({
       title: '载入页面中...',
+      mask: true
     })
     // 通过 login 云函数获取 openid
     let getOpenid = project.fun('login', {})
@@ -54,6 +57,8 @@ Page({
         nowUserInfo.doc = res0.data[0]._id
         nowUserInfo.gender = res0.data[0].gender
         nowUserInfo.avatarHistory = res0.data[0].avatarHistory
+        nowUserInfo.qq = res0.data[0].qq
+        nowUserInfo.wechat = res0.data[0].wechat
         nowUserInfo.openid = res.result.openid
         this.setData({
           userInfo: nowUserInfo
@@ -81,20 +86,32 @@ Page({
         break;
       case '个性签名':
         this.setData({
-          textarea_len: 50,
-          textarea_place: '个性签名最长50字'
+          textarea_len: 30,
+          textarea_place: '个性签名最长30字'
         })
         break;
       case '爱好':
         this.setData({
-          textarea_len: 50,
-          textarea_place: '爱好最长50字'
+          textarea_len: 30,
+          textarea_place: '爱好最长30字'
         })
         break;
       case '自我介绍':
         this.setData({
-          textarea_len: 100,
-          textarea_place: '自我介绍最长100字'
+          textarea_len: 80,
+          textarea_place: '自我介绍最长80字'
+        })
+        break;
+      case 'QQ':
+        this.setData({
+          textarea_len: 11,
+          textarea_place: 'QQ最长11字'
+        })
+        break;
+      case '微信':
+        this.setData({
+          textarea_len: 20,
+          textarea_place: '微信最长20字'
         })
         break;
     }
@@ -112,6 +129,7 @@ Page({
   popUpSure:function(e){
     wx.showLoading({
       title: '加载中...',
+      mask: true
     })
     // 为了方便下面调用this.data数据
     let that = this
@@ -125,7 +143,7 @@ Page({
       let updateDate = project.fun('databaseUpdate', {
         collectionName: 'user',
         doc: that.data.userInfo.doc,
-        data: JSON.stringify(data)
+        data: data
       })
       // 调用完后显示修改成功，并更新当前页面
       updateDate.then(res => {
@@ -148,32 +166,22 @@ Page({
     }
     switch(name){
       case '昵称':
-        this.setData({
-          textarea_len: 15,
-          textarea_place: '昵称最长15字'
-        })
         updataProcess({name: changeMsg });
         break;
       case '个性签名':
-        this.setData({
-          textarea_len: 50,
-          textarea_place: '个性签名最长50字'
-        })
         updataProcess({signature: changeMsg });
         break;
       case '爱好':
-        this.setData({
-          textarea_len: 50,
-          textarea_place: '爱好最长50字'
-        })
         updataProcess({ hobby: changeMsg });
         break;
       case '自我介绍':
-        this.setData({
-          textarea_len: 100,
-          textarea_place: '自我介绍最长100字'
-        })
-        updataProcess({ hobby: changeMsg });
+        updataProcess({ intro: changeMsg });
+        break;
+      case 'QQ':
+        updataProcess({ qq: changeMsg });
+        break;
+      case '微信':
+        updataProcess({ wechat: changeMsg });
         break;
     }
   },
@@ -206,6 +214,7 @@ Page({
     })
     wx.showLoading({
       title: '跳转中...',
+      mask: true
     })
     wx.navigateTo({
       url: '../historyHead/historyHead',
@@ -233,6 +242,7 @@ Page({
       success: function (res) {
         wx.showLoading({
           title: '上传中...',
+          mask: true
         })
         // 如果历史头像记录中满了10个，就删掉一个后再进行下一步
         if (that.data.userInfo.avatarHistory.length == 10){
@@ -298,7 +308,7 @@ Page({
               doc: that.data.userInfo.doc,
               data: {
                 avatar: res0.fileID,
-                }
+              }
             })
             // 再将旧的头像加入历史头像记录
             updateDate.then(res1 => {
@@ -360,13 +370,14 @@ Page({
         if (res.confirm) {
           wx.showLoading({
             title: '修改中...',
+            mask: true
           })
           // console.log('用户点击确定')
           // 调用更新用户数据的云函数
           let updateDate = project.fun('databaseUpdate', {
             collectionName: 'user',
             doc: that.data.userInfo.doc,
-            data: JSON.stringify({ gender: e.detail.value })
+            data: { gender: e.detail.value }
           })
           // 调用完后显示修改成功，并更新当前页面
           updateDate.then(res => {
@@ -408,13 +419,14 @@ Page({
         if (res.confirm) {
           wx.showLoading({
             title: '修改中...',
+            mask: true
           })
           // console.log('用户点击确定')
           // 调用更新用户数据的云函数
           let updateDate = project.fun('databaseUpdate', {
             collectionName: 'user',
             doc: that.data.userInfo.doc,
-            data: JSON.stringify({ birth: e.detail.value })
+            data: { birth: e.detail.value }
           })
           // 调用完后显示修改成功，并更新当前页面
           updateDate.then(res => {

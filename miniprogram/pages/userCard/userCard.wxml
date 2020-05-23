@@ -1,3 +1,54 @@
-<!--pages/userCard/userCard.wxml-->
-<text>pages/userCard/userCard.wxml</text>
-<view>openid为：{{openid}}</view>
+<view id="card">
+<view class="base">
+<!-- 头像 -->
+<view class="head" data-fileid="{{userInfo.avatar}}" bindtap="preImg"><image mode="aspectFill" src="{{userInfo.avatar}}"></image></view>
+<!-- 其他基本的文字信息 -->
+<view class="base_text">
+<!-- 昵称 -->
+<view class="name">{{userInfo.name}}</view>
+<!-- 性别 -->
+<view wx:if="{{userInfo.gender == 0}}" class="gender unknow">未知</view>
+<view wx:if="{{userInfo.gender == 1}}" class="gender boy">男生</view>
+<view wx:if="{{userInfo.gender == 2}}" class="gender girl">女生</view>
+<!-- 年龄 -->
+<view class="age">{{birth}}岁</view>
+</view>
+<view class="base_like">
+<view><image src="../../images/likeMe.png"></image></view>
+<view>{{userInfo.likeMe.length}}</view>
+</view>
+</view>
+
+<view class="group gxqm">
+<view>个性签名:</view>
+<view>{{userInfo.signature}}</view>
+</view>
+
+<view class="group ah">
+<view>爱好:</view>
+<view>{{userInfo.hobby}}</view>
+</view>
+
+<view class="group zwjs">
+<view>自我介绍:</view>
+<view>{{userInfo.intro}}</view>
+</view>
+
+<view class="group lxfs">
+<view>联系方式：</view>
+<view>
+<view>QQ : {{userInfo.qq}}</view>
+<view>微信 : {{userInfo.wechat}}</view>
+</view>
+</view>
+
+</view>
+
+<!-- 底部按钮 -->
+<view class="btn">
+<button wx:if="{{!isLiked}}" type="primary" bindtap="like" style="background-color:rgb(255, 116, 106)">点我关注</button>
+<button wx:else type="primary" bindtap="unlike" style="background-color:rgb(120, 120, 120)">取消关注</button>
+<button wx:if="{{!isBlack}}" type="primary" bindtap="black" style="background-color:rgb(230, 214, 0)">加入黑名单</button>
+<button wx:else type="primary" bindtap="unblack" style="background-color:rgb(120, 120, 120)">移出黑名单</button>
+<button type="primary" bindtap="sendMessage" hover-class="none">发送站内信</button>
+</view>

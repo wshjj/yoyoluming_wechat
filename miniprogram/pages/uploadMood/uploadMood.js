@@ -21,17 +21,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    })
     let getOpenid = project.fun('login', {})
     getOpenid.then(res => {
       // openid 放入数据库查询对应用户信息
       let myInfor = project.getUser(res.result.openid)
       myInfor.then(res0 => {
-        console.log(res0.data)
+        // console.log(res0.data)
         this.setData({
           myopenid: res.result.openid,
           authorAvatar: res0.data[0].avatar,
           authorName: res0.data[0].name,
         })
+        wx.hideLoading()
       })
     })
   },
@@ -121,6 +126,7 @@ Page({
       if (filelist.length != 0){
         wx.showLoading({
           title: '上传图片中...',
+          mask: true
         })
       }
       // 没换完则继续
@@ -140,6 +146,7 @@ Page({
             success: function () {
               wx.showLoading({
                 title: '上传说说中...',
+                mask: true
               })
               let data = {
                 openid: openid,

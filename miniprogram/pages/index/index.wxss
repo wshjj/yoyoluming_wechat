@@ -37,15 +37,15 @@ page{
   margin-top: 14vw;
   width: 100vw;
   display: flex;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
 }
 .moodcard{
   position: relative;
   background-color: white;
-  width: 82vw;
-  margin: 5px 5vw 20px 5vw;
-  padding: 4vw;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 86vw;
+  margin: 5px 5vw 10px 5vw;
+  padding: 2vw;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   border-radius: 20px;
 }
 /* 解决子元素的 margin-top 被该父元素抢去的问题 */
@@ -54,13 +54,13 @@ page{
   display: table;
 }
 .author{
-  width: 82vw;
-  height: 40px;
+  width: 86vw;
+  height: 30px;
   margin: 0 0 5px 0;
 }
 .author view:nth-child(1){
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   float: left;
 }
@@ -70,11 +70,11 @@ page{
   border-radius: 50%;
 }
 .author view:nth-child(2){
-  height: 40px;
-  width: 42vw;
+  height: 30px;
+  width: 44vw;
   margin-left: 20px;
-  font-size: 20px;
-  line-height: 40px;
+  font-size: 16px;
+  line-height: 30px;
   float: left;
   white-space: nowrap;
   overflow: hidden;
@@ -82,8 +82,8 @@ page{
 }
 .others{
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 8px;
+  right: 20px;
   width: 30px;
   height: 30px;
 }
@@ -113,6 +113,7 @@ page{
   left: 0px;
   width: 100vw;
   height: 26vh;
+  background-color: rgba(200, 200, 200, 0.8);
 }
 .menu view{
   position: fixed;
@@ -137,48 +138,60 @@ page{
   bottom: 0px;
 }
 .time{
-  width: 82vw;
+  width: 86vw;
   height: 20px;
   margin: 5px 0 5px 0;
-  font-size: 15px;
+  font-size: 13px;
   font-family: '隶书';
   line-height: 20px;
   color: gray;
 }
 .content{
-  width: 82vw;
-  margin: 5px 0 10px 0;
-  font-size: 24px;
+  width: 86vw;
+  margin: 5px 0 5px 0;
+  font-size: 20px;
   font-family: '楷体';
-  line-height: 30px;
+  line-height: 26px;
+}
+.top_hot{
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  margin: 0px 2px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(255, 115, 115);
 }
 .img{
-  width: 82vw;
-  margin: 5px 0 10px 0;
+  width: 86vw;
+  margin: 5px 0 5px 0;
 }
 .img1_width{
-  width: 82vw;
+  width: 75vw;
   height: auto;
   background-color: GhostWhite;
 }
 .img1_width image{
-  width: 82vw;
+  width: 75vw;
   height: auto;
 }
 .img1_height{
-  height: 82vw;
+  height: 75vw;
   width: auto;
   display: inline-block;
   background-color: GhostWhite;
 }
 .img1_height image{
-  height: 82vw;
+  height: 75vw;
   width: auto;
 }
 .img2{
-  width: 40vw;
-  height: 40vw;
-  margin: 1vw 1vw 1vw 0;
+  width: 37vw;
+  height: 37vw;
+  margin: 0 1vw 1vw 0;
   background-color: GhostWhite;
 }
 .img2Group{
@@ -190,9 +203,9 @@ page{
   height: 100%;
 }
 .img3{
-  width: 26vw;
-  height: 26vw;
-  margin: 1vw 1vw 1vw 0;
+  width: 25vw;
+  height: 25vw;
+  margin: 0 1vw 1vw 0;
   background-color: GhostWhite;
 }
 .img3Group{
@@ -204,25 +217,60 @@ page{
   height: 100%;
 }
 .attitude{
-  width: 82vw;
-  height: 30px;
+  width: 86vw;
+  height: 28px;
   margin: 5px 0 5px 0;
   display: flex;
 }
 .likeComm{
-  width: 22vw;
-  height: 26px;
-  margin: 2px 10px 2px 5px;
+  width: 20vw;
+  height: 24px;
+  margin: 2px 5px 2px 5px;
 }
 .likeComm image{
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   float: left;
 }
 .likeComm view{
-  height: 26px;
-  line-height: 26px;
-  font-size: 24px;
-  margin-left: 15px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 20px;
+  font-family: '隶书';
+  margin-left: 10px;
   float: left;
+}
+.uploadMore{
+  background-color: white;
+  width: 86vw;
+  height: 22px;
+  margin: 0px 5vw 5px 5vw;
+  padding: 2vw;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  line-height: 22px;
+  color: gray;
+}
+.toBottom{
+  width: 86vw;
+  height: 22px;
+  margin: 0px 5vw 5px 5vw;
+  padding: 2vw;
+  font-size: 16px;
+  text-align: center;
+  line-height: 22px;
+  color: gray;
+}
+.fresh{
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+}
+.fresh > image{
+  width: 100%;
+  height: 100%;
 }

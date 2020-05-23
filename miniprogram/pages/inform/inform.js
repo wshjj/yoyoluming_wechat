@@ -28,7 +28,7 @@ Page({
     let typeWord
     switch(type){
       case 'mood': typeWord = '心情广场';break;
-      case 'topic': typeWord = '话题说';break;
+      // case 'topic': typeWord = '话题说';break;
       case 'secret': typeWord = '匿名说';break;
     }
     this.setData({
@@ -51,6 +51,7 @@ Page({
     if (this.data.flag_inform) { return false }
     wx.showLoading({
       title: '提交中...',
+      mask: true
     })
     this.setData({
       flag_inform: true

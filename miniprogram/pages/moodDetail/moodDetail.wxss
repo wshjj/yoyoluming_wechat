@@ -1,1 +1,341 @@
-/* pages/moodDetail/moodDetail.wxss */
+page{
+  background-color: rgba(230, 230, 230, 0.6);
+}
+#wrap{
+  width: 100vw;
+}
+.main{
+  width: 100%;
+  background-color: white;
+  margin-bottom: 10px;
+}
+.author{
+  width: 96vw;
+  height: 40px;
+  margin: 2px 2vw 5px 2vw;
+  display: flex;
+}
+.author > view:nth-child(1){
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.author > view:nth-child(1) > image{
+  width: 36px;
+  height: 36px;
+  margin: 2px;
+  border-radius: 50%;
+  background-color: ghostwhite;
+}
+.author > view:nth-child(2){
+  width: 70vw;
+  height: 40px;
+  margin-left: 20px;
+  font-size: 20px;
+  line-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.time{
+  width: 96vw;
+  height: 24px;
+  margin: 2px 2vw 5px 2vw;
+  font-size: 16px;
+  font-family: '隶书';
+  line-height: 24px;
+  color: gray;
+}
+.content{
+  width: 96vw;
+  margin: 2px 2vw 5px 2vw;
+  font-size: 22px;
+  font-family: '楷体';
+  line-height: 30px;
+}
+.img{
+  width: 96vw;
+  margin: 2px 2vw 5px 2vw;
+}
+.img1_width{
+  width: 90vw;
+  height: auto;
+  background-color: GhostWhite;
+}
+.img1_width image{
+  width: 90vw;
+  height: auto;
+}
+.img1_height{
+  height: 90vw;
+  width: auto;
+  display: inline-block;
+  background-color: GhostWhite;
+}
+.img1_height image{
+  height: 90vw;
+  width: auto;
+}
+.img2{
+  width: 44vw;
+  height: 44vw;
+  margin: 0 1vw 1vw 0;
+  background-color: GhostWhite;
+}
+.img2Group{
+  display: flex;
+  flex-wrap: wrap;
+}
+.img2 image{
+  width: 100%;
+  height: 100%;
+}
+.img3{
+  width: 29vw;
+  height: 29vw;
+  margin: 0 1vw 1vw 0;
+  background-color: GhostWhite;
+}
+.img3Group{
+  display: flex;
+  flex-wrap: wrap;
+}
+.img3 image{
+  width: 100%;
+  height: 100%;
+}
+.attitude{
+  width: 96vw;
+  height: 40px;
+  margin: 5px 2vw 0px 2vw;
+  display: flex;
+}
+.likeComm{
+  width: 20vw;
+  height: 26px;
+  margin: 2px 5px 0px 5px;
+}
+.likeComm image{
+  width: 26px;
+  height: 26px;
+  float: left;
+}
+.likeComm view{
+  height: 26px;
+  line-height: 26px;
+  font-size: 20px;
+  font-family: '隶书';
+  margin-left: 10px;
+  float: left;
+}
+
+.commentDown{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+.sendCom{
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 10;
+  width: 100%;
+  background-color: white;
+  border-top: 0.5px solid rgba(215, 215, 215, 0.9);
+}
+.comContent1{
+  position: relative;
+  width: 90vw;
+  height: 36px;
+  margin: 10px 5vw;
+  border-radius: 10px;
+  background-color: rgba(210, 210, 210, 0.8);
+}
+.comContent1 > textarea{
+  position: absolute;
+  left: 5vw;
+  bottom: 5px;
+  width: 80vw;
+  height: 26px;
+  font-size: 20px;
+  line-height: 26px;
+}
+.comContent0{
+  width: 90vw;
+  margin: 5px 5vw 0px 5vw;
+  border-radius: 10px;
+  background-color: rgba(210, 210, 210, 0.8);
+}
+.takePlace{
+  width: 90vw;
+  height: 5px;
+}
+.comContent0 > textarea{
+  width: 80vw;
+  font-size: 20px;
+  line-height: 26px;
+  margin-left: 5vw;
+  padding-top: 8px;
+}
+.imgGruop{
+  width: 80vw;
+  margin: 5px 5vw;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+}
+.comImg{
+  position: relative;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  margin-right: 5px;
+}
+.loading{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 60px;
+  height: 60px;
+  background-color: ghostwhite;
+}
+.loading image{
+  width: 100%;
+  height: 100%;
+}
+.imgx{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 15px;
+  height: 15px;
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 15px;
+  z-index: 1;
+}
+.comImg image{
+  width: 100%;
+  height: 100%;
+}
+.btn{
+  width: 90vw;
+  height: 30px;
+  margin: 5px 5vw;
+}
+.btn > view{
+  width: 70px;
+  height: 30px;
+  float: right;
+  text-align: center;
+  border-radius: 15px;
+  background-color: palevioletred;
+}
+.btn > view > button{
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 30px;
+  border-radius: 15px;
+  color: white;
+}
+.btn > image{
+  width: 30px;
+  height: 30px;
+  float: right;
+  margin-right: 20px;
+}
+
+.comment{
+  width: 100%;
+  background-color: white;
+}
+.comTop{
+  width: 98vw;
+  height: 30px;
+  font-size: 18px;
+  line-height: 30px;
+  margin: 3px 0px 10px 2vw;
+  color: gray;
+}
+.comMiddle{
+  width: 96vw;
+  /* margin: 5px 2vw 56px 2vw; */
+}
+.comGroup{
+  width: 100%;
+  margin-bottom: 10px;
+}
+.info{
+  position: relative;
+  width: 100%;
+  height: 30px;
+  margin-bottom: 3px;
+}
+.info > view:nth-child(1){
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: ghostwhite;
+  display: inline-block;
+}
+.info > view:nth-child(1) > image{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.info > view:nth-child(2){
+  position: absolute;
+  top: 0px;
+  left: 40px;
+  width: 70vw;
+  height: 18px;
+  font-size: 14px;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.info > view:nth-child(3){
+  position: absolute;
+  top: 18px;
+  left: 40px;
+  width: 70vw;
+  height: 12px;
+  font-size: 10px;
+  font-family: '隶书';
+  line-height: 12px;
+  color: gray;
+}
+.comText{
+  width: 100%;
+  font-size: 20px;
+  font-family: '楷体';
+  line-height: 30px;
+  margin: 5px 0px;
+}
+.comItemImg{
+  width: 81vw;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px 0px;
+}
+.comItemImg > image{
+  width: 26vw;
+  height: 26vw;
+  margin-right: 1vw;
+  margin-bottom: 1vw;
+  background-color: ghostwhite;
+}

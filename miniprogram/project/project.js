@@ -5,7 +5,7 @@ const db = wx.cloud.database()
 const getNowTime = () => {
   let d = new Date()
   let year = d.getFullYear()
-  let month = (Array(2).join(0) + d.getMonth()).slice(-2)
+  let month = (Array(2).join(0) + (d.getMonth()+1)).slice(-2)
   let date = (Array(2).join(0) + d.getDate()).slice(-2)
   let hour = (Array(2).join(0) + d.getHours()).slice(-2)
   let minute = (Array(2).join(0) + d.getMinutes()).slice(-2)
@@ -51,11 +51,24 @@ const createRandomStr = (len) => {
 // file 是图片的临时文件地址
 // 返回值是图片上传 api 的 promise 的对象
 const uploadImg = (path,file) => {
-  let cloudPath = path + '/' + createRandomStr(10) + '.png'
+  let cloudPath = path + '/' + createRandomStr(15) + '.png'
   return wx.cloud.uploadFile({
     cloudPath: cloudPath,
     filePath: file,
   })
+}
+
+// 这是一个从对象数组中删除指定项的函数
+// arr 是需要处理的数组
+// attr 是属性名
+// value 是需删除项的对应属性属性值
+const rmObj_Arr = (arr, attr, value) => {
+  for(let i in arr){
+    if (arr[i][attr] == value) {
+      arr.splice(i, 1)
+      break
+    }
+  }
 }
 
 module.exports = {
@@ -63,5 +76,6 @@ module.exports = {
   fun,
   getUser,
   createRandomStr,
-  uploadImg
+  uploadImg,
+  rmObj_Arr
 }

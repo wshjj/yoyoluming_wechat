@@ -1,3 +1,6 @@
+<view class="notice">
+注意：在本页面填写的信息都会被展示在个人名片上，介意勿填！
+</view>
 <view>
 <form bindsubmit="submitInfo">
 
@@ -44,6 +47,16 @@
 <view>{{userInfo.intro}}</view>
 </view>
 
+<view class="group" data-name="QQ" bindtap="popUp">
+<view>联系方式(QQ)</view>
+<view>{{userInfo.qq}}</view>
+</view>
+
+<view class="group" data-name="微信" bindtap="popUp">
+<view>联系方式(微信)</view>
+<view>{{userInfo.wechat}}</view>
+</view>
+
 </form>
 </view>
 
@@ -70,6 +83,7 @@
 
 <!-- 点击头像后，底部弹出选项 -->
 <view id="head" wx:if="{{tapHead}}">
+<view class="place" bindtap="cancelHead"></view>
 <view class="headChoose">
 
 <view bindtap="watchHead">查看头像</view>

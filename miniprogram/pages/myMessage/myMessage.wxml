@@ -1,0 +1,15 @@
+<view class="wrap">
+<view class="message" wx:for="{{myInfo.message}}">
+<view class="{{item.isRead ? 'read content' : 'unread content'}}" data-item="{{item}}" bindtap="readMessage">
+<text style="font-weight:bold">[{{item.isRead ? '已读' : '未读'}}]</text> {{item.message}}
+</view>
+<view class="sender_time" data-offical="{{item.isOffical}}" data-openid="{{item.sender}}" bindtap="watchUser">
+<view>发件人：</view>
+<view class="{{item.isOffical ? 'offical' : ''}}">{{item.senderName}}</view>
+</view>
+<view class="sender_time">
+<view>时间：</view>
+<view>{{item.time}}</view>
+</view>
+</view>
+</view>

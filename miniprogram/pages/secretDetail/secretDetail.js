@@ -9,7 +9,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    avatarHistory:[]
+    item: {
+      zanList: [],
+      commentList: []
+    },
+    myInfo: {},
+    isZan: -1
   },
 
   /**
@@ -17,30 +22,37 @@ Page({
    */
   onLoad: function (options) {
     wx.showLoading({
-      title: '载入页面中...',
+      title: '加载中...',
       mask: true
     })
-    // 通过 login 云函数获取 openid
-    let getOpenid = project.fun('login', {})
-    getOpenid.then(res => {
-      // openid 放入数据库查询对应用户信息
-      let myInfor = project.getUser(res.result.openid)
-      myInfor.then(res0 => {
-        // console.log(res0.data)
-        this.setData({
-          avatarHistory: res0.data[0].avatarHistory
+    let itemDoc = options.itemDoc
+    db.collection('secret').doc(itemDoc).get().then(res => {
+      if(res.data.delte){
+        wx.showModal({
+          title: '提示',
+          content: '这条秘密不见了哦~',
+          showCancel: false,
+          success (res){
+            wx.navigateBack({})
+          }
         })
-        wx.hideLoading()
-      })
-    })
-  },
-
-  // 预览图片
-  preview:function(e){
-    let fileid = e.currentTarget.dataset.fileid
-    wx.previewImage({
-      current: fileid,
-      urls: this.data.avatarHistory,
+      }else{
+        // 通过 login 云函数获取 openid
+        let getOpenid = project.fun('login', {})
+        getOpenid.then(res0 => {
+          // openid 放入数据库查询对应用户信息
+          let myInfo = project.getUser(res0.result.openid)
+          myInfo.then(res1 => {
+            let isZan = res.data.zanList.indexOf(res1.data[0].openid)
+            this.setData({
+              item: res.data,
+              myInfo: res1.data[0],
+              isZan: isZan
+            })
+            wx.hideLoading()
+          })
+        })
+      }
     })
   },
 

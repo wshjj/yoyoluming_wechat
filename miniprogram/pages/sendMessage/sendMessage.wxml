@@ -1,0 +1,19 @@
+<view>
+<view class="people">
+<view>发件人：</view>
+<view>{{sender.name}}</view>
+</view>
+<view class="people">
+<view>收件人：</view>
+<view>{{receiver.name}}</view>
+</view>
+<form bindsubmit="sendMessage">
+<view class="content">
+<view>内容(200字内)：</view>
+<textarea name="content" maxlength="200" placeholder=" 想对 ta 说什么。。。"></textarea>
+</view>
+<view class="btn">
+<button type="primary" form-type="submit">发送</button>
+</view>
+</form>
+</view>

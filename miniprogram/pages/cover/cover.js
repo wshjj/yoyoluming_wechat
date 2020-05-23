@@ -50,6 +50,7 @@ Page({
   bindGetUserInfo:function(e){
     wx.showLoading({
       title: '加载中',
+      mask:true
     })
     // 通过 login 云函数获取 openid
     let getOpenid = project.fun('login',{})
@@ -65,8 +66,15 @@ Page({
         signature: '还没写哦~',
         hobby: '无',
         intro: '这个人很懒，啥也没写。',
+        qq: '未填',
+        wechat: '未填',
         moodFavorite: [],
-        topicFavorite: []
+        topicFavorite: [],
+        likeMe: [],
+        myLike: [],
+        blackName: [],
+        message: [],
+        unread: false
       }
       // 使用 databaseAdd 云函数将用户存入数据库
       let addDate = project.fun('databaseAdd', {

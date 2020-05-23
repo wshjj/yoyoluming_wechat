@@ -16,20 +16,38 @@
 <view wx:else>
 <!--头像和昵称/登录-->
 <view class="head_name">
-<view class="head"><image src="{{avatarUrl}}"></image></view>
-<view class="name">{{name}}</view>
+<view class="head"><image src="{{myInfo.avatar}}"></image></view>
+<view class="name">{{myInfo.name}}</view>
 </view>
 <!-- 其他选项 -->
 <view class="other">
 <view style="margin:15px 0px" bindtap="setInfoCard">设置个人资料</view>
 
+<view style="margin-top:15px" data-type="concern" bindtap="popList">我的关注 [{{myInfo.myLike.length}}]</view>
+<view data-type="fans" bindtap="popList">我的粉丝 [{{myInfo.likeMe.length}}]</view>
+<view style="margin-bottom:15px" bindtap="myMessage">我的消息<view wx:if="{{myInfo.unread}}" class="redCircle"></view></view>
+
 <view style="margin-top:15px">我的心情</view>
-<view>我的话题</view>
 <view style="margin-bottom:15px">我的匿名说</view>
 
 <view style="margin-top:15px">我的收藏</view>
 <view style="margin-bottom:15px">我的举报</view>
 
 <view style="margin-top:15px">对软件的意见</view>
+</view>
+</view>
+
+<view id="popList" wx:if="{{isList}}">
+<view class="theList">
+<view class="nav">
+<view>{{navTitle}}</view>
+<view catchtap="cancelList">X</view>
+</view>
+<view class="listFor">
+<view wx:for="{{likeList}}" data-openid="{{item.openid}}" catchtap="watchUser" class="user">
+<view><image src="{{item.avatar}}"></image></view>
+<view>{{item.name}}</view>
+</view>
+</view>
 </view>
 </view>

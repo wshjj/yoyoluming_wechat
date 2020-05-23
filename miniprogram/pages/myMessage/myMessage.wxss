@@ -1,0 +1,48 @@
+page{
+  background-color: rgba(230, 230, 230, 0.5);
+}
+.message{
+  width: 90vw;
+  height: 115px;
+  margin: 15px 3vw;
+  padding: 3px 2vw;
+  border: 0.5px solid gray;
+  background-color: white;
+  border-radius: 4px;
+}
+.content{
+  width: 100%;
+  height: 60px;
+  font-size: 20px;
+  font-family: '楷体';
+  line-height: 30px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.read{
+  color: gray;
+}
+.unread{
+  color: black;
+}
+.sender_time{
+  width: 100%;
+  height: 25px;
+  font-size: 18px;
+  font-family: '隶书';
+  line-height: 25px;
+  color: gray;
+}
+.sender_time > view{
+  display: inline-block;
+}
+.offical{
+  font-weight: bolder;
+}
+.offical::after{
+  content: '[官]';
+}
