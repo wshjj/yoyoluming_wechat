@@ -1,0 +1,34 @@
+<view wx:if="{{moodList.length == 0}}" class="none">
+你还没有收藏的说说哦~
+</view>
+
+<view class="moodContent">
+<view wx:for="{{moodList}}" wx:for-item="item" class="moodcard" data-item="{{item}}" catchtap="watchItem">
+<!-- 删除 -->
+<view class="delete" data-moodid="{{item.collectDoc}}" catchtap="deleteMood">
+<image src="../../images/delete.png"></image>
+</view>
+<!-- 作者 -->
+<view class="author">
+{{item.name}}
+</view>
+<!-- 时间 -->
+<view class="time">
+于 {{item.time}} 发表了：
+</view>
+<!-- 发表的内容 -->
+<view class="content">
+{{item.content}}
+</view>
+<!-- 图片 -->
+<view class="image">
+<view class="img" wx:for="{{item.imgList}}" wx:for-item="imgItem">
+<image catchtap="preImg" data-files="{{item.imgList}}" data-fileid="{{imgItem}}" mode="aspectFill" src="{{imgItem}}"></image>
+</view>
+</view>
+<!-- 提示文字 -->
+<view class="tip">
+（点击可查看详情）
+</view>
+</view>
+</view>

@@ -27,16 +27,16 @@
 <view data-type="fans" bindtap="popList">我的粉丝 [{{myInfo.likeMe.length}}]</view>
 <view style="margin-bottom:15px" bindtap="myMessage">我的消息<view wx:if="{{myInfo.unread}}" class="redCircle"></view></view>
 
-<view style="margin-top:15px">我的心情</view>
-<view style="margin-bottom:15px">我的匿名说</view>
+<view style="margin-top:15px" bindtap="myMood">我的心情说说</view>
+<view bindtap="mySecret">我的匿名说</view>
+<view style="margin-bottom:15px" bindtap="myFavorite">我的收藏</view>
 
-<view style="margin-top:15px">我的收藏</view>
-<view style="margin-bottom:15px">我的举报</view>
-
-<view style="margin-top:15px">对软件的意见</view>
+<view style="margin-top:15px" bindtap="feedBack">对软件的意见</view>
+<view bindtap="inform">举报处理入口（管理员）</view>
 </view>
 </view>
 
+<!-- 关注或粉丝列表 -->
 <view id="popList" wx:if="{{isList}}">
 <view class="theList">
 <view class="nav">

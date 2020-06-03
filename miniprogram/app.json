@@ -1,14 +1,14 @@
 {
   "pages": [
-    "pages/secret/secret",
-    "pages/uploadSecret/uploadSecret",
-    "pages/secretDetail/secretDetail",
-
     "pages/cover/cover",
 
     "pages/index/index",
     "pages/uploadMood/uploadMood",
     "pages/moodDetail/moodDetail",
+
+    "pages/secret/secret",
+    "pages/uploadSecret/uploadSecret",
+    "pages/secretDetail/secretDetail",
     
     "pages/inform/inform",
     "pages/userCard/userCard",
@@ -17,7 +17,13 @@
     "pages/home/home",
     "pages/setInfo/setInfo",
     "pages/historyHead/historyHead",
-    "pages/myMessage/myMessage"
+    "pages/myMessage/myMessage",
+    "pages/myMood/myMood",
+    "pages/mySecret/mySecret",
+    "pages/myFavorite/myFavorite",
+    "pages/feedBack/feedBack",
+
+    "pages/handleInform/handleInform"
   ],
   "window": {
     "navigationBarBackgroundColor": "#8ad7f3",

@@ -1,3 +1,7 @@
+<view wx:if="{{myInfo.message.length == 0}}" class="none">
+你还没有收到任何消息哦~
+</view>
+
 <view class="wrap">
 <view class="message" wx:for="{{myInfo.message}}">
 <view class="{{item.isRead ? 'read content' : 'unread content'}}" data-item="{{item}}" bindtap="readMessage">

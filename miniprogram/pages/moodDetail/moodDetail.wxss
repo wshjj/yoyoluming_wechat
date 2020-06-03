@@ -193,6 +193,7 @@ page{
   width: 60px;
   height: 60px;
   margin-right: 5px;
+  background-color: ghostwhite;
 }
 .loading{
   position: absolute;
@@ -274,6 +275,7 @@ page{
 .comGroup{
   width: 100%;
   margin-bottom: 10px;
+  border-bottom: 0.5px solid rgb(180, 180, 180);
 }
 .info{
   position: relative;

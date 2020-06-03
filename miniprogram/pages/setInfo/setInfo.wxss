@@ -144,7 +144,7 @@ page{
   border-bottom: 1px solid rgba(200, 200, 200, 0.8);
   text-align: center;
   line-height: 8vh;
-  font-size: 20px;
+  font-size: 18px;
   font-family: "微软雅黑";
   background-color: white;
 }

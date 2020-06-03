@@ -54,10 +54,14 @@ Page({
   removeImg: function(e){
     let index = e.currentTarget.dataset.index
     let nowUploadImg = this.data.uploadImg
+    let isLoad = true
+    if(index == nowUploadImg.length-1){
+      isLoad = false
+    }
     nowUploadImg.splice(index,1)
     this.setData({
       uploadImg: nowUploadImg,
-      loading: true,
+      loading: isLoad,
     })
   },
 
@@ -84,11 +88,74 @@ Page({
       wx.chooseImage({
         count: 9 - nowUploadImg.length,
         success: function (res) {
-          // console.log(res.tempFilePaths)
-          that.setData({
-            uploadImg:nowUploadImg.concat(res.tempFilePaths),
-            loading: true
+          wx.showLoading({
+            title: '检测图片中。。。',
+            mask: true
           })
+          // console.log(res.tempFilePaths)
+          let tempImg = res.tempFilePaths
+          let i = 0
+          let isDelte = false
+          function verify(){
+            wx.getFileSystemManager().readFile({
+              filePath: tempImg[i],
+              success: buffer => {
+                let test = project.fun('checkImg',{buffer: buffer.data})
+                test.then(result0 => {
+                  console.log(result0.result)
+                  if(result0.result.errCode == 87014){
+                    if(tempImg.length == i+1){
+                      tempImg.splice(i,1)
+                      isDelte = true
+                      wx.hideLoading()
+                      if(isDelte){
+                        wx.showModal({
+                          title: '警告',
+                          content: '因包含敏感信息，部分图片已被删除。',
+                          showCancel: false,
+                          confirmText: '我知道了'
+                        })
+                      }
+                      that.setData({
+                        uploadImg:nowUploadImg.concat(tempImg),
+                        loading: true
+                      })
+                    }else{
+                      tempImg.splice(i,1)
+                      isDelte = true
+                      verify()
+                    }
+                  }else if(result0.result.errCode != 0){
+                    wx.showModal({
+                      title:'提示',
+                      content: '你上传图片时出现问题，请稍候再试。也可能是服务端问题，可以联系开发人员反馈。',
+                      showCancel: false,
+                      confirmText: '我知道了',
+                      success (res) {
+                      }
+                    })
+                  }else{
+                    if(tempImg.length == i+1){
+                      wx.hideLoading()
+                      if(isDelte){
+                        wx.showToast({
+                          title: '因包含敏感信息，部分图片已被删除。',
+                        })
+                      }
+                      that.setData({
+                        uploadImg:nowUploadImg.concat(tempImg),
+                        loading: true
+                      })
+                    }else{
+                      i++
+                      verify()
+                    }
+                  }
+                })
+              }
+            })
+          }
+          verify()
         },
       })
     }
@@ -214,7 +281,46 @@ Page({
         }
       }
     }
-    upload()
+    wx.showLoading({
+      title: '检测中...',
+      mask: true
+    })
+    let verify = project.fun('checkText',{
+      content: content
+    })
+    verify.then(res => {
+      console.log(res.result)
+      if(res.result.errCode == 87014){
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '你发表的内容包含敏感信息！',
+          showCancel: false,
+          confirmText: '我知道了',
+          success: function(){
+            that.setData({
+              flag_uploadMood: false
+            })
+          }
+        })
+      }else if(res.result.errCode == 0){
+        wx.hideLoading()
+        upload()
+      }else{
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '发生了一些意外错误，建议稍后再试。或者联系开发者反馈。',
+          showCancel: false,
+          confirmText: '我知道了',
+          success: function(){
+            that.setData({
+              flag_uploadMood: false
+            })
+          }
+        })
+      }
+    })
   },
 
   /**

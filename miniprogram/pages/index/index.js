@@ -17,7 +17,7 @@ Page({
     myavatar: 'cloud://yoyoluming-eeeyk.796f-yoyoluming-eeeyk-1301771364/head/head_default.png',
     mydoc: '',
     myopenid: '',
-    myMoodFavorite: '',
+    myMoodFavorite: [],
     moodList: [],
     toUpload: false,
     over: false,
@@ -98,7 +98,9 @@ Page({
               isTop: false
             })
             getPageContent.then(res1 =>{
-              let moodList = res1.result.data
+              let moodList
+              if (res1.result == "over") moodList = []
+              else moodList = res1.result.data
               moodList.reverse()
               for (let i = 0; i < moodList.length; i++) { moodList[i].hasOthers = false }
               this.setData({
@@ -250,6 +252,14 @@ Page({
       // 已收藏列表，用于防重复
       let myMoodFavorite = this.data.myMoodFavorite
       let that = this
+      // 即将收藏的说说信息
+      let collectObj = {
+        collectDoc: collection,
+        name: nowMoodList[index].authorName,
+        content: nowMoodList[index].content,
+        time: nowMoodList[index].time,
+        imgList: nowMoodList[index].imgList
+      }
       wx.showModal({
         title: '提示',
         content: '是否收藏该篇心情说说？',
@@ -259,8 +269,15 @@ Page({
               title: '收藏中...',
               mask: true
             })
+            let flag = false
+            for(let i in myMoodFavorite){
+              if (myMoodFavorite[i].collectDoc == collection) {
+                flag = true
+                break
+              }
+            }
             // 先查询收藏列表，是否重复
-            if (myMoodFavorite.indexOf(collection) != -1){
+            if (flag){
               wx.showToast({
                 title: '你已收藏过，收藏失败！',
                 icon: 'none',
@@ -278,10 +295,10 @@ Page({
                 collectionName: 'user',
                 doc: that.data.mydoc,
                 arrName: 'moodFavorite',
-                updateDate: collection
+                updateDate: collectObj
               })
               collectMood.then(res => {
-                myMoodFavorite.unshift(collection)
+                myMoodFavorite.unshift(collectObj)
                 // 关闭列表
                 nowMoodList[index].hasOthers = false
                 that.setData({

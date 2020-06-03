@@ -79,37 +79,20 @@ Page({
 
   // 点赞
   zan: function(){
-    if(this.data.isZan == -1){
-      // 没赞过，添加到点赞列表
-      wx.showLoading({
-        title: '点赞中...',
-        mask: true
-      })
-      let unshiftArr = project.fun('databaseUnshiftArr',{
-        collectionName: 'mood',
-        doc: this.data.item._id,
-        arrName: 'zanList',
-        updateDate: this.data.myInfo.openid
-      })
-      unshiftArr.then(res => {
-        let nowItem = this.data.item
-        nowItem.zanList.unshift(this.data.myInfo.openid)
-        this.setData({
-          item: nowItem,
-          isZan: 0
-        })
-        wx.hideLoading()
-      })
-    }else{
-      // 已经赞了，从点赞列表中删去
-      wx.showLoading({
-        title: '取消点赞...',
-        mask: true
+      this.setData({
+        isZan: -1-this.data.isZan
       })
       db.collection('mood').doc(this.data.item._id).get().then(res => {
         let nowItem = res.data
+        let isZan
         if (nowItem.zanList.indexOf(this.data.myInfo.openid) > -1){
+          // 如果在点赞列表中，则删去
           nowItem.zanList.splice(nowItem.zanList.indexOf(this.data.myInfo.openid), 1)
+          isZan = -1
+        }else{
+          // 不在的话，就 unshift 进去
+          nowItem.zanList.unshift(this.data.myInfo.openid)
+          isZan = 0
         }
         let update = project.fun('databaseUpdate', {
           collectionName: 'mood',
@@ -121,12 +104,12 @@ Page({
         update.then(res0 => {
           this.setData({
             item: nowItem,
-            isZan: -1
+            isZan: isZan
           })
-          wx.hideLoading()
+          // wx.hideLoading()
         })
       })
-    }
+    // }
   },
 
   // 弹出评论的框
@@ -225,7 +208,36 @@ Page({
         })
       }
     }
-    upload()
+    wx.showLoading({
+      title: '检测中...',
+      mask: true
+    })
+    let verify = project.fun('checkText',{
+      content: content
+    })
+    verify.then(res => {
+      console.log(res.result)
+      if(res.result.errCode == 87014){
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '你评论的内容包含敏感信息！',
+          showCancel: false,
+          confirmText: '我知道了',
+        })
+      }else if(res.result.errCode == 0){
+        wx.hideLoading()
+        upload()
+      }else{
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '发生了一些意外错误，建议稍后再试。或者联系开发者反馈。',
+          showCancel: false,
+          confirmText: '我知道了',
+        })
+      }
+    })
   },
 
   // 添加图片事件
@@ -244,10 +256,74 @@ Page({
         count: 9 - nowUploadImg.length,
         success: function (res) {
           // console.log(res.tempFilePaths)
-          that.setData({
-            uploadImg: nowUploadImg.concat(res.tempFilePaths),
-            loading: true
+          wx.showLoading({
+            title: '检测图片中。。。',
+            mask: true
           })
+          // console.log(res.tempFilePaths)
+          let tempImg = res.tempFilePaths
+          let i = 0
+          let isDelte = false
+          function verify(){
+            wx.getFileSystemManager().readFile({
+              filePath: tempImg[i],
+              success: buffer => {
+                let test = project.fun('checkImg',{buffer: buffer.data})
+                test.then(result0 => {
+                  console.log(result0.result)
+                  if(result0.result.errCode == 87014){
+                    if(tempImg.length == i+1){
+                      tempImg.splice(i,1)
+                      isDelte = true
+                      wx.hideLoading()
+                      if(isDelte){
+                        wx.showModal({
+                          title: '警告',
+                          content: '因包含敏感信息，部分图片已被删除。',
+                          showCancel: false,
+                          confirmText: '我知道了'
+                        })
+                      }
+                      that.setData({
+                        uploadImg:nowUploadImg.concat(tempImg),
+                        loading: true
+                      })
+                    }else{
+                      tempImg.splice(i,1)
+                      isDelte = true
+                      verify()
+                    }
+                  }else if(result0.result.errCode != 0){
+                    wx.showModal({
+                      title:'提示',
+                      content: '你上传图片时出现问题，请稍候再试。也可能是服务端问题，可以联系开发人员反馈。',
+                      showCancel: false,
+                      confirmText: '我知道了',
+                      success (res) {
+                      }
+                    })
+                  }else{
+                    if(tempImg.length == i+1){
+                      wx.hideLoading()
+                      if(isDelte){
+                        wx.showToast({
+                          title: '因包含敏感信息，部分图片已被删除。',
+                        })
+                      }
+                      that.setData({
+                        uploadImg:nowUploadImg.concat(tempImg),
+                        loading: true
+                      })
+                    }else{
+                      i++
+                      verify()
+                    }
+                  }
+                })
+              }
+            })
+          }
+          verify()
         },
       })
     }
@@ -266,10 +342,14 @@ Page({
   removeImg: function (e) {
     let index = e.currentTarget.dataset.index
     let nowUploadImg = this.data.uploadImg
+    let isLoad = true
+    if(index == nowUploadImg.length-1){
+      isLoad = false
+    }
     nowUploadImg.splice(index, 1)
     this.setData({
       uploadImg: nowUploadImg,
-      loading: true,
+      loading: isLoad,
     })
   },
 

@@ -65,38 +65,77 @@ Page({
     that.setData({
       flag_uploadSecret: true
     })
-    // 发布者信息
-    let openid = this.data.myopenid
-    let gender
-    if(this.data.isHiddenGender) gender = 0
-    else gender = this.data.authorGender
     wx.showLoading({
-      title: '发送秘密中...',
+      title: '检测中...',
       mask: true
     })
-    let data = {
-      openid: openid,
-      authorGender: gender,
-      time: project.getNowTime(),
-      content: content,
-      zanList: [],
-      commentList: [],
-      delte: false
-    }
-    let addSecret = project.fun('databaseAdd', {
-      collectionName: 'secret',
-      data: JSON.stringify(data)
+    let verify = project.fun('checkText',{
+      content: content
     })
-    addSecret.then(res => {
-      // console.log(res)
-      wx.showToast({
-        title: '上传成功！',
-        success: function () {
-          wx.switchTab({
-            url: '../secret/secret',
-          })
+    verify.then(res => {
+      console.log(res.result)
+      if(res.result.errCode == 87014){
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '你发表的内容包含敏感信息！',
+          showCancel: false,
+          confirmText: '我知道了',
+          success: function(){
+            that.setData({
+              flag_uploadSecret: false
+            })
+          }
+        })
+      }else if(res.result.errCode == 0){
+        wx.hideLoading()
+        // 发布者信息
+        let openid = this.data.myopenid
+        let gender
+        if(this.data.isHiddenGender) gender = 0
+        else gender = this.data.authorGender
+        wx.showLoading({
+          title: '发送秘密中...',
+          mask: true
+        })
+        let data = {
+          openid: openid,
+          authorGender: gender,
+          time: project.getNowTime(),
+          content: content,
+          zanList: [],
+          commentList: [],
+          delte: false
         }
-      })
+        let addSecret = project.fun('databaseAdd', {
+          collectionName: 'secret',
+          data: JSON.stringify(data)
+        })
+        addSecret.then(res => {
+          // console.log(res)
+          wx.showToast({
+            title: '上传成功！',
+            success: function () {
+              wx.switchTab({
+                url: '../secret/secret',
+              })
+            }
+          })
+        })
+      }else{
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '发生了一些意外错误，建议稍后再试。或者联系开发者反馈。',
+          showCancel: false,
+          confirmText: '我知道了',
+          success: function(){
+            that.setData({
+              flag_uploadSecret: false
+            })
+          }
+        })
+      }
     })
   },
 

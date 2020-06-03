@@ -168,6 +168,41 @@ Page({
     })
   },
 
+  // 跳转到我的心情说说
+  myMood: function(){
+    wx.navigateTo({
+      url: '../myMood/myMood',
+    })
+  },
+
+  // 跳转到我的匿名说
+  mySecret: function(){
+    wx.navigateTo({
+      url: '../mySecret/mySecret',
+    })
+  },
+
+  // 跳转到我的收藏
+  myFavorite: function(){
+    wx.navigateTo({
+      url: '../myFavorite/myFavorite',
+    })
+  },
+
+  // 跳转到反馈对软件意见
+  feedBack: function(){
+    wx.navigateTo({
+      url: '../feedBack/feedBack',
+    })
+  },
+
+  // 举报处理入口
+  inform: function(){
+    wx.navigateTo({
+      url: '../handleInform/handleInform',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -1,0 +1,13 @@
+<view style="margin:10px 0px 0px 5px">
+<view>
+<view style="font-weight: bold">开发团队：</view>
+<view style="margin-left:2em">呦呦鹿鸣团队</view>
+<view style="margin-left:2em">(2020年全国微信小程序大赛参赛团队)</view>
+</view>
+<view style="margin:5px 0px"></view>
+<view>
+<view style="font-weight: bold">反馈意见方式：</view>
+<view style="margin-left:2em">QQ：1454252403</view>
+<view style="margin-left:2em">微信/电话：19851373892</view>
+</view>
+</view>

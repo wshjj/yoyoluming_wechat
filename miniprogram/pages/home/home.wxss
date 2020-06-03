@@ -1,6 +1,6 @@
 page{
-  /* background-color: rgba(230, 230, 230, 0.7); */
-  background-color: white;
+  background-color: rgba(230, 230, 230, 0.7);
+  /* background-color: white; */
 }
 .head_name{
   height: 15vw;
@@ -153,7 +153,7 @@ page{
   width: auto;
   height: 50px;
   margin-left: 10px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 50px;
   white-space: nowrap;
   overflow: hidden;

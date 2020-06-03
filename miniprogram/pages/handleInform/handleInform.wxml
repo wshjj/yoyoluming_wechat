@@ -1,0 +1,33 @@
+<!-- 登录部分 -->
+<view class="login" wx:if="{{!hasPermission}}">
+<form bindsubmit="verify">
+<view class="title">登录管理界面</view>
+<view class="pass">
+<view>账号：</view>
+<input name='account'></input>
+</view>
+<view class="pass">
+<view>密码：</view>
+<input name='password'></input>
+</view>
+<view class="btn">
+<button form-type="submit" type="primary">登录</button>
+</view>
+</form>
+</view>
+<!-- 已验证是管理员部分 -->
+<view wx:else>
+<view wx:if="{{informList.length == 0}}" class="none">
+暂时没有需要处理的举报
+</view>
+<view wx:for="{{informList}}" class="informCard">
+<view class="explain">类型： {{item.type == 'mood' ? '心情说' : '匿名说'}}</view>
+<view class="explain">违规类型： {{item.illegal}}</view>
+<view class="explain">原因： {{item.reason}}</view>
+<view class="watch" data-doc="{{item.informId}}" data-type="{{item.type}}" catchtap="watchItem">(点此查看涉事说说)</view>
+<view class="handleBtn">
+<button data-id="{{item._id}}" catchtap="reserve" style="margin: 0px 30px 0px 0px" type="default">保留</button>
+<button data-item="{{item}}" catchtap="delete" type="warn">删除</button>
+</view>
+</view>
+</view>
